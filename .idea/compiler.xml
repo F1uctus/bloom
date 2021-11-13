@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Gradle Imported" enabled="true">
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.20/18bcea7d5df4d49227b4a0743a536208ce4825bb/lombok-1.18.20.jar" />
+        </processorPath>
+        <module name="bloom.bloom-plugins.interface.test" />
+        <module name="bloom.bloom-fx.main" />
+        <module name="bloom.bloom-plugins.test" />
+        <module name="bloom.bloom-plugins.interface.main" />
+        <module name="bloom.bloom-plugins.interface-fx.main" />
+        <module name="bloom.main" />
+        <module name="bloom.bloom-plugins.speech.test" />
+        <module name="bloom.bloom-core.test" />
+        <module name="bloom.test" />
+        <module name="bloom.bloom-fx.test" />
+        <module name="bloom.bloom-plugins.interface-fx.test" />
+        <module name="bloom.bloom-plugins.main" />
+      </profile>
+      <profile name="Gradle Imported" enabled="true">
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.20/18bcea7d5df4d49227b4a0743a536208ce4825bb/lombok-1.18.20.jar" />
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-configuration-processor/2.6.0-RC1/ed8bfa1ed3dbccee97b77f5af1966cdcb70f24a0/spring-boot-configuration-processor-2.6.0-RC1.jar" />
+        </processorPath>
+        <module name="bloom.bloom-core.main" />
+      </profile>
+      <profile name="Gradle Imported" enabled="true">
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.20/18bcea7d5df4d49227b4a0743a536208ce4825bb/lombok-1.18.20.jar" />
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.pf4j/pf4j/3.6.0/9025adf3f680069bb1b52863c9ec70d341e09b0/pf4j-3.6.0.jar" />
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.slf4j/slf4j-api/1.7.32/cdcff33940d9f2de763bc41ea05a0be5941176c3/slf4j-api-1.7.32.jar" />
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.zafarkhaja/java-semver/0.9.0/59a83ca73c72a5e25b3f0b1bb305230a11000329/java-semver-0.9.0.jar" />
+        </processorPath>
+        <module name="bloom.bloom-plugins.speech.main" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel target="17" />
+  </component>
+</project>
