@@ -1,6 +1,6 @@
 plugins {
     `java-library`
-    id("org.springframework.boot") version "2.6.0-M3" apply false
+    id("org.springframework.boot") version "2.6.0-RC1" apply false
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
     id("io.freefair.lombok") version "6.2.0"
 }
@@ -37,7 +37,7 @@ subprojects {
 
     dependencyManagement {
         imports {
-            mavenBom("org.springframework.boot:spring-boot-dependencies:2.6.0-M3")
+            mavenBom("org.springframework.boot:spring-boot-dependencies:2.6.0-RC1")
         }
     }
 
