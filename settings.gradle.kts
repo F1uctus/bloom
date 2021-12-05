@@ -12,6 +12,7 @@ include("bloom-plugins")
 include("bloom-plugins:interface")
 include("bloom-plugins:interface-fx")
 include("bloom-plugins:speech")
+include("bloom-plugins:commandline")
 
 include("bloom-core")
 include("bloom-fx")
