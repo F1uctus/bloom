@@ -1,4 +1,4 @@
-package com.f1uctus.bloom.plugins.coreinterface.speech;
+package com.f1uctus.bloom.plugins.speech;
 
 import java.io.IOException;
 import java.io.InputStream;

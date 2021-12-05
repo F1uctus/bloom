@@ -10,7 +10,7 @@ import javax.persistence.ManyToOne;
 @Entity
 @NoArgsConstructor
 @Getter @Setter
-public class Trigger extends PropertiedEntity<ActivationPattern<?, ?>> {
+public class Trigger extends PropertiedEntity<ActivationPattern<?>> {
     @JsonIgnore
     @ManyToOne
     User user;

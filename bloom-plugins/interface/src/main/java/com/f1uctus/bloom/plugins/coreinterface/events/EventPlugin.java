@@ -8,5 +8,5 @@ import java.util.concurrent.Flow;
 public interface EventPlugin<E extends Event> extends ExtensionPoint, BasePlugin {
     Flow.Publisher<E> events();
 
-    ActivationPattern<?, E> patternTemplate();
+    ActivationPattern<E> patternTemplate();
 }

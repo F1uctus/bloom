@@ -1,4 +1,4 @@
-package com.f1uctus.bloom.plugins.coreinterface.speech.events;
+package com.f1uctus.bloom.plugins.speech.events;
 
 import com.f1uctus.bloom.plugins.coreinterface.events.Event;
 import lombok.*;

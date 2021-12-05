@@ -1,6 +1,6 @@
-package com.f1uctus.bloom.plugins.coreinterface.speech;
+package com.f1uctus.bloom.plugins.speech;
 
-import com.f1uctus.bloom.plugins.coreinterface.speech.events.SpeechEvent;
+import com.f1uctus.bloom.plugins.speech.events.SpeechEvent;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.vosk.*;
 import reactor.core.publisher.Flux;

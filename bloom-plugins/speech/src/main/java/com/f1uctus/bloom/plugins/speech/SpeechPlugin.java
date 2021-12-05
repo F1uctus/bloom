@@ -1,12 +1,12 @@
-package com.f1uctus.bloom.plugins.coreinterface.speech;
+package com.f1uctus.bloom.plugins.speech;
 
 import com.f1uctus.bloom.plugins.coreinterface.PluginHost;
 import com.f1uctus.bloom.plugins.coreinterface.events.ActivationPattern;
 import com.f1uctus.bloom.plugins.coreinterface.events.EventPlugin;
-import com.f1uctus.bloom.plugins.coreinterface.speech.events.SpeechEvent;
-import com.f1uctus.bloom.plugins.coreinterface.speech.events.SpeechEventActivationPattern;
 import com.f1uctus.bloom.plugins.fxinterface.auth.AuthPlugin;
 import com.f1uctus.bloom.plugins.fxinterface.common.Reactives;
+import com.f1uctus.bloom.plugins.speech.events.SpeechEvent;
+import com.f1uctus.bloom.plugins.speech.events.SpeechEventActivationPattern;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import javafx.application.Platform;
@@ -84,7 +84,7 @@ public class SpeechPlugin extends Plugin implements EventPlugin<SpeechEvent>, Au
         );
     }
 
-    @Override public ActivationPattern<?, SpeechEvent> patternTemplate() {
+    @Override public ActivationPattern<SpeechEvent> patternTemplate() {
         return SpeechEventActivationPattern.template();
     }
 

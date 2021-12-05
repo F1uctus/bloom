@@ -36,6 +36,7 @@ dependencies {
 
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
 
     implementation("net.rgielen:javafx-weaver-spring-boot-starter:1.3.0")
     implementation("org.reactivestreams:reactive-streams:1.0.3")

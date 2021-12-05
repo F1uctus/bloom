@@ -1,4 +1,4 @@
-package com.f1uctus.bloom.plugins.coreinterface.speech;
+package com.f1uctus.bloom.plugins.speech;
 
 public interface RecognizerProperties {
     String MODEL_NAME = "recognizer.model.name";

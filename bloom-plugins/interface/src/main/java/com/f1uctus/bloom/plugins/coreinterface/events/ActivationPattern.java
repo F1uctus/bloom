@@ -1,8 +1,10 @@
 package com.f1uctus.bloom.plugins.coreinterface.events;
 
-public interface ActivationPattern<
-    Self extends ActivationPattern<Self, E>,
-    E extends Event
-    > {
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+public interface ActivationPattern<E extends Event> {
+    @JsonIgnore
+    String getName();
+
     boolean matches(E event);
 }
