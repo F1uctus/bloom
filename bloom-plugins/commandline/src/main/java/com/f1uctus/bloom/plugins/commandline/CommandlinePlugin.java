@@ -11,7 +11,7 @@ import java.util.Properties;
 
 @Extension
 public class CommandlinePlugin extends Plugin implements ActionPlugin<CommandlineActionPattern> {
-    @Setter PluginHost host;
+    PluginHost host;
     @Getter final Properties properties = new Properties();
 
     public CommandlinePlugin(PluginWrapper wrapper) {
@@ -34,5 +34,9 @@ public class CommandlinePlugin extends Plugin implements ActionPlugin<Commandlin
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setHost(PluginHost host) {
+        this.host = host;
     }
 }
