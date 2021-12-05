@@ -1,19 +1,15 @@
 package com.f1uctus.bloom.application.common.controls;
 
 import javafx.scene.control.TreeCell;
+import lombok.RequiredArgsConstructor;
 
 import java.util.Map;
 import java.util.function.Supplier;
 
+@RequiredArgsConstructor
 public class DelegatingTreeCell<T> extends TreeCell<T> {
-    Map<Class<?>, Supplier<TreeCellDelegate<?>>> delegateCandidates;
+    final Map<Class<?>, Supplier<TreeCellDelegate<?>>> delegateCandidates;
     TreeCellDelegate<T> delegate;
-
-    public DelegatingTreeCell(
-        Map<Class<?>, Supplier<TreeCellDelegate<?>>> delegateCandidates
-    ) {
-        this.delegateCandidates = delegateCandidates;
-    }
 
     @Override public void startEdit() {
         super.startEdit();
@@ -32,9 +28,9 @@ public class DelegatingTreeCell<T> extends TreeCell<T> {
             setText(null);
             setGraphic(null);
         } else {
-            if (delegate == null) {
+            if (delegate == null
+                || !delegate.getItemClass().equals(item.getClass())) {
                 delegate = (TreeCellDelegate<T>) delegateCandidates.get(getItem().getClass()).get();
-                delegateCandidates = null;
                 delegate.setCell(this);
             }
             delegate.updateItem(item);

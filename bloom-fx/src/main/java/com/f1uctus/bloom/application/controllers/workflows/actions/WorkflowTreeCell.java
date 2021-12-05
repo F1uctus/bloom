@@ -1,18 +1,20 @@
-package com.f1uctus.bloom.application.controllers.workflows.cells;
+package com.f1uctus.bloom.application.controllers.workflows.actions;
 
 import com.f1uctus.bloom.application.common.controls.DelegatingTreeCell;
 import com.f1uctus.bloom.application.common.controls.TreeCellDelegate;
 import com.f1uctus.bloom.core.persistence.models.Workflow;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class WorkflowTreeCell implements TreeCellDelegate<Workflow<?>> {
-    DelegatingTreeCell<Workflow<?>> cell;
+public class WorkflowTreeCell implements TreeCellDelegate<Workflow> {
+    @Getter final Class<?> itemClass = Workflow.class;
+    DelegatingTreeCell<Workflow> cell;
     TextField textField;
 
-    @Override public void setCell(DelegatingTreeCell<Workflow<?>> cell) {
+    @Override public void setCell(DelegatingTreeCell<Workflow> cell) {
         this.cell = cell;
     }
 
@@ -30,7 +32,7 @@ public class WorkflowTreeCell implements TreeCellDelegate<Workflow<?>> {
         cell.setGraphic(cell.getTreeItem().getGraphic());
     }
 
-    @Override public void updateItem(Workflow<?> item) {
+    @Override public void updateItem(Workflow item) {
         if (cell.isEditing()) {
             if (textField != null) {
                 textField.setText(getString());

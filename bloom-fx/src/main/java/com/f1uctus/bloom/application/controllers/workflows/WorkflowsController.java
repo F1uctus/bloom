@@ -54,17 +54,17 @@ public class WorkflowsController extends ReactiveController {
         loadToTree(workflows.findByUser(user));
     }
 
-    private List<Workflow<?>> loadFromTree() {
+    private List<Workflow> loadFromTree() {
         return tree.getRoot().getChildren().stream()
-            .map(TreeItem::getValue).map(v -> (Workflow<?>) v)
+            .map(TreeItem::getValue).map(v -> (Workflow) v)
             .collect(toList());
     }
 
-    private void loadToTree(List<Workflow<?>> wfs) {
+    private void loadToTree(List<Workflow> wfs) {
         tree.getRoot().getChildren().setAll(wfs.stream().map(this::toTreeItem).toList());
     }
 
-    private TreeItem<PropertiedEntity<?>> toTreeItem(Workflow<?> wf) {
+    private TreeItem<PropertiedEntity<?>> toTreeItem(Workflow wf) {
         var ti = new TreeItem<PropertiedEntity<?>>(wf);
         ti.getChildren()
             .addAll(wf.getTriggers().stream()
@@ -80,13 +80,13 @@ public class WorkflowsController extends ReactiveController {
         var item = tree.getSelectionModel().getSelectedItem();
         if (item == null) {
             tree.getRoot().getChildren().add(new TreeItem<>(
-                new Workflow<>(user, "New workflow")
+                new Workflow(user, "New workflow")
             ));
-        } else if (item.getValue() instanceof Workflow<?> w) {
+        } else if (item.getValue() instanceof Workflow w) {
             var t = new Trigger(user, "New trigger");
             w.getTriggers().add(t);
             item.getChildren().add(new TreeItem<>(t));
-        } else if (item.getParent().getValue() instanceof Workflow<?> w) {
+        } else if (item.getParent().getValue() instanceof Workflow w) {
             var t = new Trigger(user, "New trigger");
             w.getTriggers().add(t);
             item.getParent().getChildren().add(new TreeItem<>(t));
@@ -98,10 +98,9 @@ public class WorkflowsController extends ReactiveController {
         if (item == null) {
             return;
         }
-        if (item.getValue() instanceof Workflow<?> w) {
-            workflows.delete(w);
-        } else if (item.getValue() instanceof Trigger t) {
-            triggers.delete(t);
+        if (item.getValue() instanceof Trigger t
+            && item.getParent().getValue() instanceof Workflow w) {
+            w.getTriggers().remove(t);
         }
         item.getParent().getChildren().remove(item);
     }
