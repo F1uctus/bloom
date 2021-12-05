@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox minHeight="400.0" minWidth="500.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.f1uctus.bloom.application.controllers.workflows.WorkflowsController">
+    <HBox spacing="5.0">
+        <Button mnemonicParsing="false" text="Save" onAction="#onSaveAction"/>
+        <Button mnemonicParsing="false" text="Add" onAction="#onAddAction"/>
+        <Button mnemonicParsing="false" text="Remove" onAction="#onRemoveAction"/>
+    </HBox>
+    <TreeView fx:id="tree" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS"/>
+</VBox>

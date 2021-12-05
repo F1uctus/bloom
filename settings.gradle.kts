@@ -5,8 +5,13 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+
 rootProject.name = "bloom"
-include("bloom-interfaces")
-include("bloom-interfaces-speech")
+
+include("bloom-plugins")
+include("bloom-plugins:interface")
+include("bloom-plugins:interface-fx")
+include("bloom-plugins:speech")
+
 include("bloom-core")
 include("bloom-fx")

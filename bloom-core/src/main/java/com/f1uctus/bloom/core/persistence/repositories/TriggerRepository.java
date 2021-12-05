@@ -1,9 +1,9 @@
 package com.f1uctus.bloom.core.persistence.repositories;
 
 import com.f1uctus.bloom.core.persistence.models.Trigger;
-import org.springframework.data.r2dbc.repository.R2dbcRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;
 
-public interface TriggerRepository extends R2dbcRepository<Trigger<?>, UUID> {
+public interface TriggerRepository extends JpaRepository<Trigger, UUID> {
 }

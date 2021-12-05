@@ -1,14 +1,10 @@
 package com.f1uctus.bloom.core.persistence.repositories;
 
 import com.f1uctus.bloom.core.persistence.models.User;
-import org.springframework.data.r2dbc.repository.R2dbcRepository;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+import com.f1uctus.bloom.plugins.coreinterface.identity.IdentityRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;
 
-public interface UserRepository extends R2dbcRepository<User, UUID> {
-    Mono<User> findByLogin(String login);
-
-    Flux<User> findByKeyPhrase(String keyPhrase);
+public interface UserRepository extends JpaRepository<User, UUID>, IdentityRepository<User> {
 }

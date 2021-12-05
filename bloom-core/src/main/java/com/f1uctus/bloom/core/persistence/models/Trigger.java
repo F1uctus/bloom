@@ -1,19 +1,24 @@
 package com.f1uctus.bloom.core.persistence.models;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.f1uctus.bloom.plugins.coreinterface.events.ActivationPattern;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
-import javax.persistence.*;
-import java.util.UUID;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 
 @Entity
-@Getter
-@Setter
-public class Trigger<T> extends PropertiedEntity<T> {
-    @Id UUID id;
+@NoArgsConstructor
+@Getter @Setter
+public class Trigger extends PropertiedEntity<ActivationPattern<?, ?>> {
+    @JsonIgnore
+    @ManyToOne
+    User user;
 
     String name;
 
-    @ManyToOne
-    User user;
+    public Trigger(User user, String name) {
+        this.user = user;
+        this.name = name;
+    }
 }

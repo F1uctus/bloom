@@ -1,26 +1,25 @@
 package com.f1uctus.bloom.core.persistence.models;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.data.annotation.Id;
+import com.f1uctus.bloom.plugins.coreinterface.identity.IdentityHolder;
+import lombok.*;
+import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.*;
 import java.util.Set;
 import java.util.UUID;
 
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
-@Setter
-public class User {
-    @javax.persistence.Id @Id
-    UUID id;
+public class User extends AbstractPersistable<UUID> implements IdentityHolder {
+    String firstName;
 
-    String login;
+    String lastName;
 
-    String password;
+    String identityHash;
 
-    String keyPhrase;
-
+    @ElementCollection
     @Enumerated(EnumType.STRING)
     Set<Role> roles;
 

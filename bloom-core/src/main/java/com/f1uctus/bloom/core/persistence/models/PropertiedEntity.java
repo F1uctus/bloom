@@ -1,14 +1,19 @@
 package com.f1uctus.bloom.core.persistence.models;
 
-import com.f1uctus.bloom.core.JacksonObjectPersister;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.f1uctus.bloom.core.Json;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.springframework.data.jpa.domain.AbstractPersistable;
 
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Transient;
+import javax.persistence.*;
+import java.util.UUID;
 
+@JsonIgnoreProperties("new")
 @MappedSuperclass
-public class PropertiedEntity<T> {
+@NoArgsConstructor
+public abstract class PropertiedEntity<T> extends AbstractPersistable<UUID> {
     @Getter
     Class<?> propertiesType;
 
@@ -17,23 +22,53 @@ public class PropertiedEntity<T> {
     @Transient
     T cachedProperties;
 
-    public T getProperties() throws JsonProcessingException {
+    @Transient
+    String lastState;
+
+    @JsonIgnore
+    protected String getState() {
+        return Json.ser(this);
+    }
+
+    @JsonIgnore
+    public boolean isChanged() {
+        return !(getState().equals(lastState));
+    }
+
+    @PostLoad
+    void postLoad() {
+        lastState = getState();
+    }
+
+    @PrePersist
+    void prePersist() {
+        lastState = getState();
+    }
+
+    @PreUpdate
+    void preUpdate() {
+        lastState = getState();
+    }
+
+    public T getProperties() {
         if (cachedProperties == null) {
             cacheProperties();
         }
         return cachedProperties;
     }
 
-    public void setProperties(T properties) throws JsonProcessingException {
-        this.properties = JacksonObjectPersister.getMapper().writeValueAsString(properties);
+    public void setProperties(T properties) {
+        this.properties = Json.ser(properties);
         cachedProperties = properties;
     }
 
     @SuppressWarnings("unchecked")
-    private void cacheProperties() throws JsonProcessingException {
-        cachedProperties = (T) JacksonObjectPersister.getMapper().readValue(
-            properties,
-            propertiesType
-        );
+    private void cacheProperties() {
+        if (properties != null && propertiesType != null) {
+            cachedProperties = (T) Json.des(
+                properties,
+                propertiesType
+            );
+        }
     }
 }
