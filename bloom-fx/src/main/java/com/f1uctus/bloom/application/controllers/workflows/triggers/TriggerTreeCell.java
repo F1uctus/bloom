@@ -1,28 +1,32 @@
-package com.f1uctus.bloom.application.controllers.workflows.cells;
+package com.f1uctus.bloom.application.controllers.workflows.triggers;
 
 import com.f1uctus.bloom.application.common.controls.DelegatingTreeCell;
 import com.f1uctus.bloom.application.common.controls.TreeCellDelegate;
 import com.f1uctus.bloom.core.persistence.models.Trigger;
-import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
-import lombok.RequiredArgsConstructor;
+import com.f1uctus.bloom.core.plugins.PluginRepository;
+import javafx.scene.Node;
+import lombok.Getter;
 
-@RequiredArgsConstructor
 public class TriggerTreeCell implements TreeCellDelegate<Trigger> {
+    @Getter final Class<?> itemClass = Trigger.class;
+    final PluginRepository plugins;
     DelegatingTreeCell<Trigger> cell;
-    TextField textField;
+    Node properties;
+
+    public TriggerTreeCell(PluginRepository plugins) {
+        this.plugins = plugins;
+    }
 
     @Override public void setCell(DelegatingTreeCell<Trigger> cell) {
         this.cell = cell;
     }
 
     @Override public void startEdit() {
-        if (textField == null) {
-            createTextField();
+        if (properties == null) {
+            properties = new TriggerPatternView(plugins, cell.getItem());
         }
         cell.setText(null);
-        cell.setGraphic(textField);
-        textField.selectAll();
+        cell.setGraphic(properties);
     }
 
     @Override public void cancelEdit() {
@@ -32,28 +36,12 @@ public class TriggerTreeCell implements TreeCellDelegate<Trigger> {
 
     @Override public void updateItem(Trigger item) {
         if (cell.isEditing()) {
-            if (textField != null) {
-                textField.setText(getString());
-            }
             cell.setText(null);
-            cell.setGraphic(textField);
+            cell.setGraphic(properties);
         } else {
             cell.setText(getString());
             cell.setGraphic(cell.getTreeItem().getGraphic());
         }
-    }
-
-    private void createTextField() {
-        textField = new TextField(getString());
-        textField.setOnKeyReleased(ke -> {
-            if (ke.getCode() == KeyCode.ENTER) {
-                var item = cell.getItem().setName(textField.getText());
-                cell.commitEdit(item);
-                updateItem(item);
-            } else if (ke.getCode() == KeyCode.ESCAPE) {
-                cancelEdit();
-            }
-        });
     }
 
     private String getString() {

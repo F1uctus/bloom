@@ -2,11 +2,11 @@ package com.f1uctus.bloom.application.controllers.workflows;
 
 import com.f1uctus.bloom.application.common.controls.DelegatingTreeCell;
 import com.f1uctus.bloom.application.controllers.ReactiveController;
-import com.f1uctus.bloom.application.controllers.workflows.cells.TriggerTreeCell;
-import com.f1uctus.bloom.application.controllers.workflows.cells.WorkflowTreeCell;
+import com.f1uctus.bloom.application.controllers.workflows.triggers.TriggerTreeCell;
+import com.f1uctus.bloom.application.controllers.workflows.actions.WorkflowTreeCell;
 import com.f1uctus.bloom.core.persistence.models.*;
-import com.f1uctus.bloom.core.persistence.repositories.TriggerRepository;
 import com.f1uctus.bloom.core.persistence.repositories.WorkflowRepository;
+import com.f1uctus.bloom.core.plugins.PluginRepository;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -29,7 +29,7 @@ import static java.util.stream.Collectors.toList;
 public class WorkflowsController extends ReactiveController {
     @FXML TreeView<PropertiedEntity<?>> tree;
 
-    final TriggerRepository triggers;
+    final PluginRepository plugins;
     final WorkflowRepository workflows;
     final PlatformTransactionManager txManager;
 
@@ -43,7 +43,7 @@ public class WorkflowsController extends ReactiveController {
         tree.setEditable(true);
         tree.setCellFactory(tv -> new DelegatingTreeCell<>(Map.of(
             Workflow.class, WorkflowTreeCell::new,
-            Trigger.class, TriggerTreeCell::new
+            Trigger.class, () -> new TriggerTreeCell(plugins)
         )));
         tree.setShowRoot(false);
         var root = new TreeItem<PropertiedEntity<?>>();
