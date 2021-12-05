@@ -16,6 +16,8 @@ import javafx.stage.WindowEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.List;
 import java.util.Map;
@@ -29,10 +31,15 @@ public class WorkflowsController extends ReactiveController {
 
     final TriggerRepository triggers;
     final WorkflowRepository workflows;
+    final PlatformTransactionManager txManager;
+
+    TransactionTemplate tx;
 
     @Setter User user;
 
     @Override public void initialize() {
+        tx = new TransactionTemplate(txManager);
+
         tree.setEditable(true);
         tree.setCellFactory(tv -> new DelegatingTreeCell<>(Map.of(
             Workflow.class, WorkflowTreeCell::new,
@@ -73,7 +80,11 @@ public class WorkflowsController extends ReactiveController {
     }
 
     public void onSaveAction(ActionEvent event) {
-        loadToTree(workflows.saveAll(loadFromTree()));
+        tx.execute(s -> {
+            workflows.deleteByUser(user);
+            loadToTree(workflows.saveAll(loadFromTree()));
+            return null;
+        });
     }
 
     public void onAddAction(ActionEvent event) {
@@ -116,7 +127,11 @@ public class WorkflowsController extends ReactiveController {
                 ButtonType.CANCEL
             ).showAndWait().ifPresent(type -> {
                 if (type == ButtonType.YES) {
-                    workflows.saveAll(wfs);
+                    tx.execute(s -> {
+                        workflows.deleteByUser(user);
+                        workflows.saveAll(wfs);
+                        return null;
+                    });
                 } else if (type == ButtonType.CANCEL) {
                     event.consume();
                 }
