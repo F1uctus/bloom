@@ -59,6 +59,7 @@ public abstract class PropertiedEntity<T> extends AbstractPersistable<UUID> {
 
     public void setProperties(T properties) {
         this.properties = Json.ser(properties);
+        propertiesType = properties.getClass();
         cachedProperties = properties;
     }
 
