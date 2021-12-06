@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
@@ -32,5 +32,10 @@
                 <Font name="Iosevka Italic" size="18.0"/>
             </font>
         </TextField>
+        <TableView fx:id="logArea" VBox.vgrow="ALWAYS" stylesheets="@style.css" styleClass="noheader">
+            <VBox.margin>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </VBox.margin>
+        </TableView>
     </VBox>
 </AnchorPane>
