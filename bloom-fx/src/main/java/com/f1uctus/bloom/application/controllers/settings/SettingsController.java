@@ -42,7 +42,7 @@ public class SettingsController extends ReactiveController {
     }
 
     @Override public Stage getStage() {
-        return null;
+        return (Stage) tabPane.getScene().getWindow();
     }
 
     private static List<ColumnConstraints> recomputeGridColumns(
