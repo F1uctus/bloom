@@ -18,4 +18,8 @@ public class CommandlineActionPattern implements ActionPayloadPattern {
     @Override public String getName() {
         return "Runtime command (no result)";
     }
+
+    @Override public String toString() {
+        return getName() + ": \"" + command + "\"";
+    }
 }

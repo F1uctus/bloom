@@ -33,7 +33,7 @@ public class DelegatingTreeCell<T> extends TreeCell<T> {
                 delegate = (TreeCellDelegate<T>) delegateCandidates.get(getItem().getClass()).get();
                 delegate.setCell(this);
             }
-            delegate.updateItem(item);
+            delegate.updateItem();
         }
     }
 }

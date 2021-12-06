@@ -5,9 +5,13 @@ public interface TreeCellDelegate<T> {
 
     void setCell(DelegatingTreeCell<T> cell);
 
-    void startEdit();
+    default void startEdit() {
+        updateItem();
+    }
 
-    void cancelEdit();
+    default void cancelEdit() {
+        updateItem();
+    }
 
-    void updateItem(T item);
+    void updateItem();
 }

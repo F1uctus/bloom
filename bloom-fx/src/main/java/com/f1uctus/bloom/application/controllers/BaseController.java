@@ -5,9 +5,16 @@ import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class BaseController {
     @Autowired
     protected ApplicationContext context;
+
+    public <T> List<T> getBeansOfType(Class<T> type) {
+        return new ArrayList<>(context.getBeansOfType(type).values());
+    }
 
     public abstract void initialize();
 

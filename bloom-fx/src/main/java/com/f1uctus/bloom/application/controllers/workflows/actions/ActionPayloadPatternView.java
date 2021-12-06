@@ -1,10 +1,10 @@
-package com.f1uctus.bloom.application.controllers.workflows.triggers;
+package com.f1uctus.bloom.application.controllers.workflows.actions;
 
 import com.dooapp.fxform.FXForm;
 import com.dooapp.fxform.builder.FXFormBuilder;
-import com.f1uctus.bloom.core.persistence.models.Trigger;
-import com.f1uctus.bloom.plugins.coreinterface.events.ActivationPattern;
-import com.f1uctus.bloom.plugins.coreinterface.events.EventPlugin;
+import com.f1uctus.bloom.core.persistence.models.Action;
+import com.f1uctus.bloom.plugins.coreinterface.actions.ActionPayloadPattern;
+import com.f1uctus.bloom.plugins.coreinterface.actions.ActionPlugin;
 import com.google.common.collect.Iterators;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
@@ -24,31 +24,31 @@ import static java.util.stream.Collectors.toList;
 import static javafx.beans.binding.Bindings.createObjectBinding;
 import static javafx.collections.FXCollections.observableArrayList;
 
-public class TriggerPatternView extends HBox {
-    @Getter final Property<ActivationPattern<?>> pattern = new SimpleObjectProperty<>();
-    final Trigger trigger;
+public class ActionPayloadPatternView extends HBox {
+    @Getter final Property<ActionPayloadPattern> pattern = new SimpleObjectProperty<>();
+    final Action action;
 
-    public TriggerPatternView(List<EventPlugin<?>> eventPlugins, Trigger trigger) {
+    public ActionPayloadPatternView(List<ActionPlugin<?>> actionPlugins, Action action) {
         setAlignment(Pos.CENTER_LEFT);
         setSpacing(5);
 
-        this.trigger = trigger;
+        this.action = action;
 
-        var eventType = new ComboBox<ActivationPattern<?>>();
-        eventType.setItems(observableArrayList(eventPlugins.stream()
-            .map(EventPlugin::patternTemplate)
-            .map(t -> trigger.getProperties() != null
-                      && t.getClass().isInstance(trigger.getProperties())
-                ? trigger.getProperties()
-                : t)
+        var eventType = new ComboBox<ActionPayloadPattern>();
+        eventType.setItems(observableArrayList(actionPlugins.stream()
+            .map(ActionPlugin::payloadTemplate)
+            .map(pattern -> action.getProperties() != null
+                            && pattern.getClass().isInstance(action.getProperties())
+                ? action.getProperties()
+                : pattern)
             .collect(toList())));
-        eventType.setConverter(new TriggerTypeConverter());
+        eventType.setConverter(new ActionTypeConverter());
         eventType.setCellFactory(new Callback<>() {
             @Override
-            public ListCell<ActivationPattern<?>> call(ListView<ActivationPattern<?>> l) {
+            public ListCell<ActionPayloadPattern> call(ListView<ActionPayloadPattern> l) {
                 return new ListCell<>() {
                     @Override
-                    protected void updateItem(ActivationPattern<?> item, boolean empty) {
+                    protected void updateItem(ActionPayloadPattern item, boolean empty) {
                         super.updateItem(item, empty);
                         if (empty || item == null) {
                             setGraphic(null);
@@ -60,8 +60,8 @@ public class TriggerPatternView extends HBox {
             }
         });
         this.pattern.bind(eventType.getSelectionModel().selectedItemProperty());
-        if (trigger.getProperties() != null) {
-            eventType.getSelectionModel().select(trigger.getProperties());
+        if (action.getProperties() != null) {
+            eventType.getSelectionModel().select(action.getProperties());
         }
 
         var button = new Button("Edit");
@@ -93,21 +93,21 @@ public class TriggerPatternView extends HBox {
                 return;
             }
             form.commit();
-            trigger.setProperties(pattern.getValue());
+            action.setProperties(pattern.getValue());
         });
         stage.show();
     }
 
-    public static class TriggerTypeConverter extends StringConverter<ActivationPattern<?>> {
-        static Map<String, ActivationPattern<?>> cache = new HashMap<>();
+    public static class ActionTypeConverter extends StringConverter<ActionPayloadPattern> {
+        static Map<String, ActionPayloadPattern> cache = new HashMap<>();
 
         @Override
-        public ActivationPattern<?> fromString(String s) {
+        public ActionPayloadPattern fromString(String s) {
             return cache.get(s);
         }
 
         @Override
-        public String toString(ActivationPattern<?> object) {
+        public String toString(ActionPayloadPattern object) {
             if (object == null) {
                 return null;
             }

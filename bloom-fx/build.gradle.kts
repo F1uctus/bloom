@@ -32,7 +32,6 @@ dependencies {
     implementation(project(":bloom-core"))
     implementation(project(":bloom-plugins:interface"))
     implementation(project(":bloom-plugins:interface-fx"))
-    implementation(project(":bloom-plugins:speech"))
 
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")

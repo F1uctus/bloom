@@ -1,6 +1,7 @@
 package com.f1uctus.bloom.plugins.speech.events;
 
 import com.f1uctus.bloom.plugins.coreinterface.events.ActivationPattern;
+import com.f1uctus.bloom.plugins.coreinterface.events.Event;
 import lombok.*;
 
 import java.util.regex.Pattern;
@@ -21,7 +22,11 @@ public final class SpeechEventActivationPattern implements ActivationPattern<Spe
         return "Speech";
     }
 
-    @Override public boolean matches(SpeechEvent event) {
-        return textPattern.asMatchPredicate().test(event.getText());
+    @Override public boolean matches(Event event) {
+        return event instanceof SpeechEvent e && textPattern.asMatchPredicate().test(e.getText());
+    }
+
+    @Override public String toString() {
+        return getName() + ": \"" + textPattern.toString() + "\"";
     }
 }

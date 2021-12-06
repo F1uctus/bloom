@@ -6,5 +6,5 @@ public interface ActivationPattern<E extends Event> {
     @JsonIgnore
     String getName();
 
-    boolean matches(E event);
+    boolean matches(Event event);
 }

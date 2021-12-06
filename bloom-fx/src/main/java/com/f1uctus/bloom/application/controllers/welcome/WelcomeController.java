@@ -7,7 +7,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.pf4j.PluginManager;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -16,13 +15,9 @@ import org.springframework.stereotype.Component;
 public class WelcomeController extends ReactiveController {
     @FXML AnchorPane pane;
 
-    final PluginManager pm;
-
     public void initialize() {
-        for (var pw : pm.getPlugins()) {
-            if (pw.getPlugin() instanceof AuthPlugin ap) {
-                pane.getChildren().add(ap.buildAuthorizationView());
-            }
+        for (var ap : context.getBeansOfType(AuthPlugin.class).values()) {
+            pane.getChildren().add(ap.buildAuthorizationView());
         }
         System.out.println("Done");
     }

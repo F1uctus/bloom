@@ -15,10 +15,7 @@ public class Trigger extends PropertiedEntity<ActivationPattern<?>> {
     @ManyToOne
     User user;
 
-    String name;
-
-    public Trigger(User user, String name) {
+    public Trigger(User user) {
         this.user = user;
-        this.name = name;
     }
 }

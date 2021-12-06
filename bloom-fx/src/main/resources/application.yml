@@ -22,6 +22,6 @@ spring:
 plugins:
   root: ../bloom-plugins/build/plugins
 
-#logging.level:
+logging.level:
 #  com: debug
-#  org: debug
+  org.pf4j: debug

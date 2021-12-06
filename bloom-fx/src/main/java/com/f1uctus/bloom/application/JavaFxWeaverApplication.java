@@ -4,8 +4,10 @@ import com.dooapp.fxform.adapter.*;
 import com.dooapp.fxform.handler.WrappedTypeHandler;
 import com.dooapp.fxform.view.factory.DefaultFactoryProvider;
 import com.dooapp.fxform.view.factory.impl.TextFieldFactory;
+import com.f1uctus.bloom.core.BloomPluginHost;
 import com.f1uctus.bloom.core.persistence.models.User;
 import com.f1uctus.bloom.core.persistence.repositories.UserRepository;
+import com.f1uctus.bloom.plugins.coreinterface.BasePlugin;
 import javafx.application.Application;
 import javafx.beans.property.StringProperty;
 import javafx.beans.property.adapter.JavaBeanObjectProperty;
@@ -18,7 +20,7 @@ import org.springframework.boot.autoconfigure.jdbc.XADataSourceAutoConfiguration
 import org.springframework.boot.autoconfigure.r2dbc.R2dbcAutoConfiguration;
 import org.springframework.boot.autoconfigure.task.TaskSchedulingAutoConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.convert.converter.Converter;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import java.util.List;
@@ -37,6 +39,19 @@ import java.util.regex.Pattern;
 public class JavaFxWeaverApplication {
     public static void main(String[] args) {
         Application.launch(MainApplication.class, args);
+    }
+
+    @DependsOn("pluginManager")
+    @Bean
+    CommandLineRunner pluginsHostBinder(
+        BloomPluginHost host,
+        List<BasePlugin> plugins
+    ) {
+        return args -> {
+            for (var p : plugins) {
+                p.setHost(host);
+            }
+        };
     }
 
     @Bean
@@ -69,7 +84,7 @@ public class JavaFxWeaverApplication {
     }
 
     @Bean
-    CommandLineRunner fxFormInitializer(List<Converter<?, ?>> converters) {
+    CommandLineRunner fxFormInitializer() {
         return args -> {
             DefaultAdapterProvider.addGlobalAdapter(
                 new TypeAdapterMatcher(JavaBeanObjectProperty.class, StringProperty.class),

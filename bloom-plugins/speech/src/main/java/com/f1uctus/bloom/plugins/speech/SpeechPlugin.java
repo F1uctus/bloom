@@ -15,7 +15,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
-import lombok.Getter;
 import lombok.SneakyThrows;
 import org.pf4j.*;
 import reactor.adapter.JdkFlowAdapter;
@@ -23,12 +22,9 @@ import reactor.adapter.JdkFlowAdapter;
 import java.util.*;
 import java.util.concurrent.Flow;
 
-@Extension
-public class SpeechPlugin extends Plugin implements EventPlugin<SpeechEvent>, AuthPlugin {
-    private PluginHost host;
-    @Getter final Properties properties = new Properties();
-    private SpeechRecognizer recognizer;
-    private static final Map<Label, Disposable> subscriptions = new HashMap<>();
+public class SpeechPlugin extends Plugin {
+    static final Properties properties = new Properties();
+    static SpeechRecognizer recognizer;
 
     public SpeechPlugin(PluginWrapper wrapper) {
         super(wrapper);
@@ -44,51 +40,61 @@ public class SpeechPlugin extends Plugin implements EventPlugin<SpeechEvent>, Au
         recognizer.close();
     }
 
-    @Override public Node buildAuthorizationView() {
-        var label = new Label();
-        label.parentProperty().addListener(new ChangeListener<>() {
-            @Override public void changed(
-                ObservableValue<? extends Parent> o,
-                Parent oldParent,
-                Parent newParent
-            ) {
-                if (newParent == null) {
-                    if (subscriptions.containsKey(label)) {
-                        subscriptions.remove(label).dispose();
+    @Extension
+    public static class SpeechPluginImpl implements EventPlugin<SpeechEvent>, AuthPlugin {
+        private PluginHost host;
+        private static final Map<Label, Disposable> subscriptions = new HashMap<>();
+
+        @Override public Node buildAuthorizationView() {
+            var label = new Label();
+            label.parentProperty().addListener(new ChangeListener<>() {
+                @Override public void changed(
+                    ObservableValue<? extends Parent> o,
+                    Parent oldParent,
+                    Parent newParent
+                ) {
+                    if (newParent == null) {
+                        if (subscriptions.containsKey(label)) {
+                            subscriptions.remove(label).dispose();
+                        }
+                        label.parentProperty().removeListener(this);
+                    } else {
+                        subscriptions.put(label, Reactives.toObservable(events())
+                            .subscribeOn(Schedulers.computation())
+                            .filter(e -> !e.getText().equals(label.getText()))
+                            .subscribe(e -> Platform.runLater(() -> {
+                                label.setText(e.getText());
+                                var holder = host.getIdentityRepository()
+                                    .findByIdentityHash(label.getText());
+                                if (holder.isPresent()) {
+                                    label.setStyle("-fx-text-fill: green");
+                                    host.setIdentityHolder(holder.get());
+                                } else {
+                                    label.setStyle("-fx-text-fill: red");
+                                }
+                            })));
                     }
-                    label.parentProperty().removeListener(this);
-                } else {
-                    subscriptions.put(label, Reactives.toObservable(events())
-                        .subscribeOn(Schedulers.computation())
-                        .filter(e -> !e.getText().equals(label.getText()))
-                        .subscribe(e -> Platform.runLater(() -> {
-                            label.setText(e.getText());
-                            var holder = host.getIdentityRepository()
-                                .findByIdentityHash(label.getText());
-                            if (holder.isPresent()) {
-                                label.setStyle("-fx-text-fill: green");
-                                host.setIdentityHolder(holder.get());
-                            } else {
-                                label.setStyle("-fx-text-fill: red");
-                            }
-                        })));
                 }
-            }
-        });
-        return label;
-    }
+            });
+            return label;
+        }
 
-    @Override public Flow.Publisher<SpeechEvent> events() {
-        return JdkFlowAdapter.publisherToFlowPublisher(
-            recognizer.startListening().filter(e -> !e.getText().isBlank())
-        );
-    }
+        @Override public Flow.Publisher<SpeechEvent> events() {
+            return JdkFlowAdapter.publisherToFlowPublisher(
+                recognizer.startListening().filter(e -> !e.getText().isBlank())
+            );
+        }
 
-    @Override public ActivationPattern<SpeechEvent> patternTemplate() {
-        return SpeechEventActivationPattern.template();
-    }
+        @Override public ActivationPattern<SpeechEvent> patternTemplate() {
+            return SpeechEventActivationPattern.template();
+        }
 
-    public void setHost(PluginHost host) {
-        this.host = host;
+        @Override public Properties getProperties() {
+            return properties;
+        }
+
+        public void setHost(PluginHost host) {
+            this.host = host;
+        }
     }
 }

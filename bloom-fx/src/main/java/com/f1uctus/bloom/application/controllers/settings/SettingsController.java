@@ -21,8 +21,6 @@ public class SettingsController extends ReactiveController {
     @FXML TabPane tabPane;
     @FXML GridPane pluginGrid;
 
-//    final List<EventPlugin<?>> eventPlugins;
-
     Seq<Label> plugins;
 
     @Override public void initialize() {

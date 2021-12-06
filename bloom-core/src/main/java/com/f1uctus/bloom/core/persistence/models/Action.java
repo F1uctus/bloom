@@ -15,10 +15,7 @@ public class Action extends PropertiedEntity<ActionPayloadPattern> {
     @ManyToOne
     User user;
 
-    String name;
-
-    public Action(User user, String name) {
+    public Action(User user) {
         this.user = user;
-        this.name = name;
     }
 }

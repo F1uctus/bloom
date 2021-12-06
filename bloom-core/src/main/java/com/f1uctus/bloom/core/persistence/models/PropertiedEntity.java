@@ -1,9 +1,9 @@
 package com.f1uctus.bloom.core.persistence.models;
 
 import com.f1uctus.bloom.core.Json;
+import com.f1uctus.bloom.core.plugins.PluginConfiguration;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
@@ -14,8 +14,7 @@ import java.util.UUID;
 @MappedSuperclass
 @NoArgsConstructor
 public abstract class PropertiedEntity<T> extends AbstractPersistable<UUID> {
-    @Getter
-    Class<?> propertiesType;
+    String propertiesType;
 
     String properties;
 
@@ -59,7 +58,7 @@ public abstract class PropertiedEntity<T> extends AbstractPersistable<UUID> {
 
     public void setProperties(T properties) {
         this.properties = Json.ser(properties);
-        propertiesType = properties.getClass();
+        propertiesType = properties.getClass().getName();
         cachedProperties = properties;
     }
 
@@ -68,7 +67,7 @@ public abstract class PropertiedEntity<T> extends AbstractPersistable<UUID> {
         if (properties != null && propertiesType != null) {
             cachedProperties = (T) Json.des(
                 properties,
-                propertiesType
+                PluginConfiguration.findClassForName(propertiesType)
             );
         }
     }

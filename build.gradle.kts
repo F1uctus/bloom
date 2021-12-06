@@ -53,13 +53,18 @@ subprojects {
         }
     }
 
+    val voskVersion = "0.3.33"
+
     dependencies {
         implementation("com.google.guava:guava:31.0.1-jre")
         implementation("com.oath.cyclops:cyclops:10.4.0")
 
-        implementation("org.pf4j:pf4j:${pf4jVersion}") {
+        implementation("org.pf4j:pf4j-spring:0.7.0") {
             exclude(group = "org.slf4j")
         }
+
+        implementation("net.java.dev.jna:jna:5.9.0")
+        implementation("com.alphacephei:vosk:$voskVersion")
 
         testImplementation("org.junit.jupiter:junit-jupiter-api")
         testImplementation("org.junit.jupiter:junit-jupiter-params")

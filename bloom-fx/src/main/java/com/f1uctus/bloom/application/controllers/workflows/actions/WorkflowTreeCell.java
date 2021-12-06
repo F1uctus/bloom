@@ -2,60 +2,29 @@ package com.f1uctus.bloom.application.controllers.workflows.actions;
 
 import com.f1uctus.bloom.application.common.controls.DelegatingTreeCell;
 import com.f1uctus.bloom.application.common.controls.TreeCellDelegate;
+import com.f1uctus.bloom.application.controllers.workflows.WorkflowEditStageReady;
 import com.f1uctus.bloom.core.persistence.models.Workflow;
-import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationContext;
 
 @RequiredArgsConstructor
 public class WorkflowTreeCell implements TreeCellDelegate<Workflow> {
     @Getter final Class<?> itemClass = Workflow.class;
+    final ApplicationContext context;
     DelegatingTreeCell<Workflow> cell;
-    TextField textField;
 
     @Override public void setCell(DelegatingTreeCell<Workflow> cell) {
         this.cell = cell;
     }
 
     @Override public void startEdit() {
-        if (textField == null) {
-            createTextField();
-        }
-        cell.setText(null);
-        cell.setGraphic(textField);
-        textField.selectAll();
+        context.publishEvent(new WorkflowEditStageReady(cell.getItem()));
     }
 
-    @Override public void cancelEdit() {
+    @Override public void updateItem() {
         cell.setText(getString());
-        cell.setGraphic(cell.getTreeItem().getGraphic());
-    }
-
-    @Override public void updateItem(Workflow item) {
-        if (cell.isEditing()) {
-            if (textField != null) {
-                textField.setText(getString());
-            }
-            cell.setText(null);
-            cell.setGraphic(textField);
-        } else {
-            cell.setText(getString());
-            cell.setGraphic(cell.getTreeItem().getGraphic());
-        }
-    }
-
-    private void createTextField() {
-        textField = new TextField(getString());
-        textField.setOnKeyReleased(ke -> {
-            if (ke.getCode() == KeyCode.ENTER) {
-                var item = cell.getItem().setName(textField.getText());
-                cell.commitEdit(item);
-                updateItem(item);
-            } else if (ke.getCode() == KeyCode.ESCAPE) {
-                cancelEdit();
-            }
-        });
+//        cell.setGraphic(cell.getTreeItem().getGraphic());
     }
 
     private String getString() {

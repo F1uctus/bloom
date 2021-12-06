@@ -3,19 +3,19 @@ package com.f1uctus.bloom.application.controllers.workflows.triggers;
 import com.f1uctus.bloom.application.common.controls.DelegatingTreeCell;
 import com.f1uctus.bloom.application.common.controls.TreeCellDelegate;
 import com.f1uctus.bloom.core.persistence.models.Trigger;
-import com.f1uctus.bloom.core.plugins.PluginRepository;
+import com.f1uctus.bloom.plugins.coreinterface.events.EventPlugin;
 import javafx.scene.Node;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
+@RequiredArgsConstructor
 public class TriggerTreeCell implements TreeCellDelegate<Trigger> {
     @Getter final Class<?> itemClass = Trigger.class;
-    final PluginRepository plugins;
+    final List<EventPlugin<?>> eventPlugins;
     DelegatingTreeCell<Trigger> cell;
     Node properties;
-
-    public TriggerTreeCell(PluginRepository plugins) {
-        this.plugins = plugins;
-    }
 
     @Override public void setCell(DelegatingTreeCell<Trigger> cell) {
         this.cell = cell;
@@ -23,18 +23,12 @@ public class TriggerTreeCell implements TreeCellDelegate<Trigger> {
 
     @Override public void startEdit() {
         if (properties == null) {
-            properties = new TriggerPatternView(plugins, cell.getItem());
+            properties = new TriggerPatternView(eventPlugins, cell.getItem());
         }
-        cell.setText(null);
-        cell.setGraphic(properties);
+        updateItem();
     }
 
-    @Override public void cancelEdit() {
-        cell.setText(getString());
-        cell.setGraphic(cell.getTreeItem().getGraphic());
-    }
-
-    @Override public void updateItem(Trigger item) {
+    @Override public void updateItem() {
         if (cell.isEditing()) {
             cell.setText(null);
             cell.setGraphic(properties);
@@ -46,6 +40,8 @@ public class TriggerTreeCell implements TreeCellDelegate<Trigger> {
 
     private String getString() {
         var item = cell.getItem();
-        return item == null ? "" : item.getName();
+        return item == null || item.getProperties() == null
+            ? "New trigger"
+            : item.getProperties().toString();
     }
 }

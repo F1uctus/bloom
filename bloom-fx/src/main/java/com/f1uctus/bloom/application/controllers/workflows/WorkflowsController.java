@@ -2,15 +2,14 @@ package com.f1uctus.bloom.application.controllers.workflows;
 
 import com.f1uctus.bloom.application.common.controls.DelegatingTreeCell;
 import com.f1uctus.bloom.application.controllers.ReactiveController;
-import com.f1uctus.bloom.application.controllers.workflows.triggers.TriggerTreeCell;
 import com.f1uctus.bloom.application.controllers.workflows.actions.WorkflowTreeCell;
+import com.f1uctus.bloom.application.controllers.workflows.triggers.TriggerTreeCell;
 import com.f1uctus.bloom.core.persistence.models.*;
 import com.f1uctus.bloom.core.persistence.repositories.WorkflowRepository;
-import com.f1uctus.bloom.core.plugins.PluginRepository;
+import com.f1uctus.bloom.plugins.coreinterface.events.EventPlugin;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.input.*;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import lombok.RequiredArgsConstructor;
@@ -24,12 +23,9 @@ import java.util.Map;
 
 import static java.util.stream.Collectors.toList;
 
-@Component
-@RequiredArgsConstructor
-public class WorkflowsController extends ReactiveController {
+@Component @RequiredArgsConstructor public class WorkflowsController extends ReactiveController {
     @FXML TreeView<PropertiedEntity<?>> tree;
 
-    final PluginRepository plugins;
     final WorkflowRepository workflows;
     final PlatformTransactionManager txManager;
 
@@ -42,8 +38,9 @@ public class WorkflowsController extends ReactiveController {
 
         tree.setEditable(true);
         tree.setCellFactory(tv -> new DelegatingTreeCell<>(Map.of(
-            Workflow.class, WorkflowTreeCell::new,
-            Trigger.class, () -> new TriggerTreeCell(plugins)
+            Workflow.class, () -> new WorkflowTreeCell(context),
+            Trigger.class, () -> new TriggerTreeCell(getBeansOfType(EventPlugin.class).stream()
+                .map(ep -> ((EventPlugin<?>) ep)).collect(toList()))
         )));
         tree.setShowRoot(false);
         var root = new TreeItem<PropertiedEntity<?>>();
@@ -52,18 +49,17 @@ public class WorkflowsController extends ReactiveController {
     }
 
     @Override public void afterSetup() {
-        getScene().getAccelerators().put(
-            new KeyCodeCombination(KeyCode.A, KeyCombination.CONTROL_DOWN),
-            () -> onAddAction(null)
-        );
         getStage().setOnCloseRequest(this::onClose);
         // Load workflow tree
         loadToTree(workflows.findByUser(user));
     }
 
     private List<Workflow> loadFromTree() {
-        return tree.getRoot().getChildren().stream()
-            .map(TreeItem::getValue).map(v -> (Workflow) v)
+        return tree.getRoot()
+            .getChildren()
+            .stream()
+            .map(TreeItem::getValue)
+            .map(v -> (Workflow) v)
             .collect(toList());
     }
 
@@ -74,8 +70,7 @@ public class WorkflowsController extends ReactiveController {
     private TreeItem<PropertiedEntity<?>> toTreeItem(Workflow wf) {
         var ti = new TreeItem<PropertiedEntity<?>>(wf);
         ti.getChildren()
-            .addAll(wf.getTriggers().stream()
-                .map(TreeItem<PropertiedEntity<?>>::new).toList());
+            .addAll(wf.getTriggers().stream().map(TreeItem<PropertiedEntity<?>>::new).toList());
         return ti;
     }
 
@@ -90,15 +85,13 @@ public class WorkflowsController extends ReactiveController {
     public void onAddAction(ActionEvent event) {
         var item = tree.getSelectionModel().getSelectedItem();
         if (item == null) {
-            tree.getRoot().getChildren().add(new TreeItem<>(
-                new Workflow(user, "New workflow")
-            ));
+            tree.getRoot().getChildren().add(new TreeItem<>(new Workflow(user, "New workflow")));
         } else if (item.getValue() instanceof Workflow w) {
-            var t = new Trigger(user, "New trigger");
+            var t = new Trigger(user);
             w.getTriggers().add(t);
             item.getChildren().add(new TreeItem<>(t));
         } else if (item.getParent().getValue() instanceof Workflow w) {
-            var t = new Trigger(user, "New trigger");
+            var t = new Trigger(user);
             w.getTriggers().add(t);
             item.getParent().getChildren().add(new TreeItem<>(t));
         }
@@ -109,8 +102,8 @@ public class WorkflowsController extends ReactiveController {
         if (item == null) {
             return;
         }
-        if (item.getValue() instanceof Trigger t
-            && item.getParent().getValue() instanceof Workflow w) {
+        if (item.getValue() instanceof Trigger t && item.getParent()
+            .getValue() instanceof Workflow w) {
             w.getTriggers().remove(t);
         }
         item.getParent().getChildren().remove(item);
