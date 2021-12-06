@@ -3,7 +3,7 @@ package com.f1uctus.bloom.application.controllers.welcome;
 import com.f1uctus.bloom.application.controllers.ReactiveController;
 import com.f1uctus.bloom.plugins.fxinterface.auth.AuthPlugin;
 import javafx.fxml.FXML;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,22 +13,22 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 @Slf4j
 public class WelcomeController extends ReactiveController {
-    @FXML AnchorPane pane;
+    @FXML VBox authMethods;
 
     public void initialize() {
         for (var ap : context.getBeansOfType(AuthPlugin.class).values()) {
-            pane.getChildren().add(ap.buildAuthorizationView());
+            authMethods.getChildren().add(ap.buildAuthorizationView());
         }
         System.out.println("Done");
     }
 
     @Override public void terminate() {
         // Disposes all previously subscribed handlers
-        pane.getChildren().clear();
+        authMethods.getChildren().clear();
         super.terminate();
     }
 
     @Override public Stage getStage() {
-        return (Stage) pane.getScene().getWindow();
+        return (Stage) authMethods.getScene().getWindow();
     }
 }
