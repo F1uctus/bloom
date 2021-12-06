@@ -5,6 +5,7 @@ import com.f1uctus.bloom.application.controllers.welcome.WelcomeController;
 import com.f1uctus.bloom.core.events.LoginEvent;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import lombok.RequiredArgsConstructor;
 import net.rgielen.fxweaver.core.FxWeaver;
 import org.springframework.context.ApplicationContext;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class StageInitializer {
+    final Image appIcon = new Image("/bloom.png");
     final ApplicationContext context;
     final FxWeaver fx;
     BaseController lastController;
@@ -27,6 +29,7 @@ public class StageInitializer {
         }
         var controllerAndView = fx.load(event.getControllerClass());
         stage.setScene(new Scene((Parent) controllerAndView.getView().orElseThrow()));
+        stage.getIcons().add(appIcon);
         stage.show();
         event.setupController((ReactiveController) controllerAndView.getController());
         lastController = (BaseController) controllerAndView.getController();
