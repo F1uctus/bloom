@@ -7,14 +7,18 @@ Making a fully modular project using combo of:
 - Project Reactor + RxJava
 - PF4J
 - Lombok
+- TestFX
 
-### Building:
+### Building
+
+Target JDK version: 17 \
+Requires Gradle 7.4+
 
 ```shell
 ./gradlew bootJar
 ```
 
-### Running:
+### Running
 
 ```shell
 ./gradlew bootRun
@@ -23,3 +27,8 @@ Making a fully modular project using combo of:
 java -jar ./bloom-fx/build/libs/bloom-fx-boot-0.0.1-SNAPSHOT.jar
 ```
 
+### Tests
+
+```shell
+./gradlew :bloom-fx:test
+```
