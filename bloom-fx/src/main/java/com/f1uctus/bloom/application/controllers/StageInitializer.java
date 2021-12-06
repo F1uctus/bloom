@@ -40,6 +40,6 @@ public class StageInitializer {
         if (!(lastController instanceof WelcomeController)) {
             return;
         }
-        context.publishEvent(new MainStageReady(lastController.getStage(), event.getUser()));
+        context.publishEvent(new MainStageReady(lastController.getStage()));
     }
 }

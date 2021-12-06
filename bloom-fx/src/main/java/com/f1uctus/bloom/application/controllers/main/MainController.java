@@ -6,7 +6,6 @@ import com.f1uctus.bloom.application.controllers.settings.SettingsController;
 import com.f1uctus.bloom.application.controllers.settings.SettingsStageReady;
 import com.f1uctus.bloom.application.controllers.workflows.WorkflowsStageReady;
 import com.f1uctus.bloom.core.events.WorkflowMatchEvent;
-import com.f1uctus.bloom.core.persistence.models.User;
 import com.f1uctus.bloom.plugins.coreinterface.events.Event;
 import com.f1uctus.bloom.plugins.coreinterface.events.EventPlugin;
 import com.f1uctus.bloom.plugins.fxinterface.common.Reactives;
@@ -19,7 +18,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.experimental.FieldNameConstants;
 import org.pdfsam.rxjavafx.schedulers.JavaFxScheduler;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -28,15 +27,16 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
-@Component @RequiredArgsConstructor public class MainController extends ReactiveController {
+@Component
+@RequiredArgsConstructor
+@FieldNameConstants
+public class MainController extends ReactiveController {
     static final DateTimeFormatter logTimeFormat = DateTimeFormatter
         .ofPattern("HH:mm:ss")
         .withZone(ZoneId.systemDefault());
 
     @FXML TextField commandBox;
     @FXML TableView<Pair<Instant, String>> logArea;
-
-    @Setter User user;
 
     @Override public void initialize() {
         logArea.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
@@ -56,9 +56,7 @@ import java.time.format.DateTimeFormatter;
 
         logArea.setItems(new ObservableLimitedList<>(100));
 
-        subscriptions.add(context.getBeansOfType(EventPlugin.class)
-            .values()
-            .stream()
+        subscriptions.add(context.getBeansOfType(EventPlugin.class).values().stream()
             .map(ep -> (EventPlugin<?>) ep)
             .map(EventPlugin::events)
             .map(Reactives::toObservable)
@@ -69,14 +67,16 @@ import java.time.format.DateTimeFormatter;
             .subscribe(event -> commandBox.setText("Last event: " + event), System.err::println));
     }
 
-    @EventListener public void on(Event event) {
+    @EventListener
+    public void on(Event event) {
         logArea.getItems().add(new Pair<>(
             Instant.now(),
             "Received an event: " + event
         ));
     }
 
-    @EventListener public void on(WorkflowMatchEvent event) {
+    @EventListener
+    public void on(WorkflowMatchEvent event) {
         logArea.getItems().add(new Pair<>(
             Instant.now(),
             "Executed workflow: " + event.getWorkflow().getName()
@@ -84,11 +84,11 @@ import java.time.format.DateTimeFormatter;
     }
 
     public void onEditWorkflowsItemClick(ActionEvent event) {
-        context.publishEvent(new WorkflowsStageReady(user));
+        context.publishEvent(new WorkflowsStageReady());
     }
 
     public void onEditMenuPluginsItemClick(ActionEvent event) {
-        context.publishEvent(new SettingsStageReady(user, SettingsController.Tab.PLUGINS));
+        context.publishEvent(new SettingsStageReady(SettingsController.Tab.PLUGINS));
     }
 
     @Override public void terminate() {

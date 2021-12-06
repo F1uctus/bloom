@@ -12,18 +12,16 @@ import lombok.Value;
 public class SettingsStageReady implements StageReadyEvent<SettingsController> {
     Class<SettingsController> controllerClass = SettingsController.class;
     Stage stage;
-    User user;
     SettingsController.Tab tab;
 
-    public SettingsStageReady(User user) {
-        this(user, SettingsController.Tab.MAIN);
+    public SettingsStageReady() {
+        this(SettingsController.Tab.MAIN);
     }
 
-    public SettingsStageReady(User user, SettingsController.Tab tab) {
+    public SettingsStageReady(SettingsController.Tab tab) {
         stage = new Stage();
         stage.setTitle("Settings");
         stage.initModality(Modality.APPLICATION_MODAL);
-        this.user = user;
         this.tab = tab;
     }
 

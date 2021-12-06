@@ -4,6 +4,7 @@ import com.f1uctus.bloom.application.common.controls.DelegatingTreeCell;
 import com.f1uctus.bloom.application.controllers.ReactiveController;
 import com.f1uctus.bloom.application.controllers.workflows.actions.WorkflowTreeCell;
 import com.f1uctus.bloom.application.controllers.workflows.triggers.TriggerTreeCell;
+import com.f1uctus.bloom.core.BloomPluginHost;
 import com.f1uctus.bloom.core.persistence.models.*;
 import com.f1uctus.bloom.core.persistence.repositories.WorkflowRepository;
 import com.f1uctus.bloom.plugins.coreinterface.events.EventPlugin;
@@ -23,11 +24,14 @@ import java.util.Map;
 
 import static java.util.stream.Collectors.toList;
 
-@Component @RequiredArgsConstructor public class WorkflowsController extends ReactiveController {
+@Component
+@RequiredArgsConstructor
+public class WorkflowsController extends ReactiveController {
     @FXML TreeView<PropertiedEntity<?>> tree;
 
     final WorkflowRepository workflows;
     final PlatformTransactionManager txManager;
+    final BloomPluginHost host;
 
     TransactionTemplate tx;
 
@@ -35,6 +39,7 @@ import static java.util.stream.Collectors.toList;
 
     @Override public void initialize() {
         tx = new TransactionTemplate(txManager);
+        user = (User) host.getIdentityHolder();
 
         tree.setEditable(true);
         tree.setCellFactory(tv -> new DelegatingTreeCell<>(Map.of(

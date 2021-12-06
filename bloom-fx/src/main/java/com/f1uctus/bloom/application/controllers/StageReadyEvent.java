@@ -6,6 +6,7 @@ public interface StageReadyEvent<T extends ReactiveController> {
     Class<T> getControllerClass();
 
     default void setupController(T controller) {
+        controller.afterSetup();
     }
 
     Stage getStage();
