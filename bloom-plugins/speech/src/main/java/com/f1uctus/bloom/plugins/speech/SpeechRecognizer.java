@@ -2,7 +2,8 @@ package com.f1uctus.bloom.plugins.speech;
 
 import com.f1uctus.bloom.plugins.speech.events.SpeechEvent;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.vosk.*;
+import org.vosk.Model;
+import org.vosk.Recognizer;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.SynchronousSink;
 
@@ -27,10 +28,6 @@ public class SpeechRecognizer implements AutoCloseable {
     private final TargetDataLine microphone;
     private final Model model;
     private final int audioBufferSize;
-
-    static {
-        LibVosk.setLogLevel(LogLevel.DEBUG);
-    }
 
     public SpeechRecognizer(Properties properties) throws LineUnavailableException, IOException {
         for (var info : AudioSystem.getMixerInfo()) {
@@ -104,7 +101,7 @@ public class SpeechRecognizer implements AutoCloseable {
                     recognizer.close();
                 }
             }
-        ).onBackpressureDrop();
+        ).onBackpressureDrop().distinctUntilChanged();
     }
 
     private static String encode(String input) {
