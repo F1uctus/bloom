@@ -1,6 +1,7 @@
 package com.f1uctus.bloom.application.controllers;
 
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -19,6 +20,7 @@ public abstract class BaseController {
     public abstract void initialize();
 
     public void afterSetup() {
+        getStage().getIcons().add(new Image("/bloom.png"));
     }
 
     public void terminate() {
