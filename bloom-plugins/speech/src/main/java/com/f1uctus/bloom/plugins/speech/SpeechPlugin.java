@@ -10,11 +10,13 @@ import com.f1uctus.bloom.plugins.speech.events.SpeechEventActivationPattern;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.layout.HBox;
+import javafx.scene.text.Font;
 import lombok.SneakyThrows;
 import org.pf4j.*;
 import reactor.adapter.JdkFlowAdapter;
@@ -46,20 +48,17 @@ public class SpeechPlugin extends Plugin {
         private static final Map<Label, Disposable> subscriptions = new HashMap<>();
 
         @Override public Node buildAuthorizationView() {
+            var button = new ToggleButton("Speech");
             var label = new Label();
-            label.parentProperty().addListener(new ChangeListener<>() {
-                @Override public void changed(
-                    ObservableValue<? extends Parent> o,
-                    Parent oldParent,
-                    Parent newParent
-                ) {
-                    if (newParent == null) {
-                        if (subscriptions.containsKey(label)) {
-                            subscriptions.remove(label).dispose();
-                        }
-                        label.parentProperty().removeListener(this);
-                    } else {
-                        subscriptions.put(label, Reactives.toObservable(events())
+            label.setFont(new Font(14));
+            label.setText("Произнесите ключевую фразу");
+            label.managedProperty().bind(label.visibleProperty());
+            label.visibleProperty().bind(button.selectedProperty());
+            label.visibleProperty().addListener((o, s, u) -> {
+                if (u) {
+                    subscriptions.put(
+                        label,
+                        Reactives.toObservable(events())
                             .subscribeOn(Schedulers.computation())
                             .filter(e -> !e.getText().equals(label.getText()))
                             .subscribe(e -> Platform.runLater(() -> {
@@ -68,15 +67,22 @@ public class SpeechPlugin extends Plugin {
                                     .findByIdentityHash(label.getText());
                                 if (holder.isPresent()) {
                                     label.setStyle("-fx-text-fill: green");
+                                    button.setSelected(false);
                                     host.setIdentityHolder(holder.get());
                                 } else {
                                     label.setStyle("-fx-text-fill: red");
                                 }
-                            })));
-                    }
+                            }))
+                    );
+                } else if (subscriptions.containsKey(label)) {
+                    subscriptions.remove(label).dispose();
                 }
             });
-            return label;
+            var box = new HBox(button, label);
+            box.setAlignment(Pos.CENTER);
+            box.setSpacing(10);
+            box.setPadding(new Insets(5));
+            return box;
         }
 
         @Override public Flow.Publisher<SpeechEvent> events() {
