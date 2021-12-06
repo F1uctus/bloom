@@ -13,12 +13,8 @@ import javafx.beans.property.StringProperty;
 import javafx.beans.property.adapter.JavaBeanObjectProperty;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.availability.ApplicationAvailabilityAutoConfiguration;
-import org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.boot.autoconfigure.jdbc.XADataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.r2dbc.R2dbcAutoConfiguration;
-import org.springframework.boot.autoconfigure.task.TaskSchedulingAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -28,11 +24,7 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 @SpringBootApplication(scanBasePackages = "com.f1uctus.bloom", exclude = {
-    TaskSchedulingAutoConfiguration.class,
-    ApplicationAvailabilityAutoConfiguration.class,
     R2dbcAutoConfiguration.class,
-    XADataSourceAutoConfiguration.class,
-    CacheAutoConfiguration.class
 })
 @EnableJpaRepositories("com.f1uctus.bloom.core.persistence.repositories")
 @EntityScan(basePackages = "com.f1uctus.bloom.core.persistence.models")
