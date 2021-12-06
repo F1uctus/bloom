@@ -7,9 +7,9 @@
       fx:controller="com.f1uctus.bloom.application.controllers.workflows.WorkflowsController"
       stylesheets="@workflow.css">
     <HBox spacing="5.0">
-        <Button mnemonicParsing="false" onAction="#onSaveAction" prefWidth="75.0" text="Save"/>
-        <Button mnemonicParsing="false" onAction="#onAddAction" prefWidth="75.0" text="Add"/>
-        <Button mnemonicParsing="false" onAction="#onRemoveAction" prefWidth="75.0" text="Remove"/>
+        <Button id="save-button" mnemonicParsing="false" onAction="#onSaveAction" prefWidth="75.0" text="Save"/>
+        <Button id="add-button" mnemonicParsing="false" onAction="#onAddAction" prefWidth="75.0" text="Add"/>
+        <Button id="remove-button" mnemonicParsing="false" onAction="#onRemoveAction" prefWidth="75.0" text="Remove"/>
         <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
         </padding>

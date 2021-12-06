@@ -13,9 +13,9 @@
             <Menu text="File">
                 <MenuItem text="Close"/>
             </Menu>
-            <Menu text="Edit">
-                <MenuItem onAction="#onEditWorkflowsItemClick" text="Workflows"/>
-                <MenuItem onAction="#onEditMenuPluginsItemClick" text="Plugins"/>
+            <Menu id="edit-menu" text="Edit">
+                <MenuItem id="workflows-menu-item" onAction="#onEditWorkflowsItemClick" text="Workflows"/>
+                <MenuItem id="plugins-menu-item" onAction="#onEditMenuPluginsItemClick" text="Plugins"/>
             </Menu>
             <Menu text="Help">
                 <MenuItem text="About"/>

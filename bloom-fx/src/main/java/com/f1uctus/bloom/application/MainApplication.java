@@ -15,6 +15,7 @@ public class MainApplication extends Application {
     @Override public void init() {
         context = new SpringApplicationBuilder()
             .sources(JavaFxWeaverApplication.class)
+            .headless(false)
             .run(getParameters().getRaw().toArray(new String[0]));
 
         pm = context.getBean(PluginManager.class);

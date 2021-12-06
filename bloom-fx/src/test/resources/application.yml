@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:bloom
+    username: sa
+    password: pass
+
+plugins:
+  root: ../bloom-plugins/build/plugins

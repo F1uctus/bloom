@@ -43,4 +43,8 @@ dependencies {
     implementation("com.dooapp.fxform2:core:9.0.0")
 
     implementation("com.fasterxml.jackson.core:jackson-databind")
+
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.testfx:testfx-junit5:4.0.16-alpha")
+    testImplementation("org.testfx:openjfx-monocle:jdk-12.0.1+2")
 }
