@@ -14,7 +14,7 @@ public class WorkflowsStageReady implements StageReadyEvent<WorkflowsController>
 
     public WorkflowsStageReady(User user) {
         stage = new Stage();
-        stage.setTitle("Settings");
+        stage.setTitle("Workflows");
         stage.initModality(Modality.APPLICATION_MODAL);
         this.user = user;
     }
