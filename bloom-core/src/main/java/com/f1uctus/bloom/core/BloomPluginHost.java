@@ -17,9 +17,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
-import java.time.Duration;
-import java.time.Instant;
-
 @Component
 @Slf4j
 @RequiredArgsConstructor
@@ -29,21 +26,10 @@ public class BloomPluginHost implements PluginHost {
     final WorkflowRepository workflows;
     User user;
 
-    Event lastEvent;
-    Instant lastEventTime = Instant.now();
-
     @EventListener public void on(Event event) {
-        if (event.equals(lastEvent)
-            && Duration.between(lastEventTime, Instant.now())
-                   .compareTo(Duration.ofMillis(500)) < 0) {
-            lastEventTime = Instant.now();
-            return;
-        }
         workflows.findByUser(user).stream()
             .filter(w -> w.getTriggers().stream().anyMatch(t -> t.getProperties().matches(event)))
             .forEach(w -> context.publishEvent(new WorkflowMatchEvent(w)));
-        lastEvent = event;
-        lastEventTime = Instant.now();
     }
 
     @SuppressWarnings("unchecked")
