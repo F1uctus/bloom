@@ -67,7 +67,7 @@ subprojects {
     }
 
     dependencies {
-        annotationProcessor("org.pf4j:pf4j:${pf4jVersion}")
+        annotationProcessor("org.pf4j:pf4j:$pf4jVersion")
     }
 }
 

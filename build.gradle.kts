@@ -8,6 +8,7 @@ plugins {
     id("org.javamodularity.moduleplugin") version "1.8.12"
 }
 
+val pf4jVersion: String by project
 val pluginsDir by extra { file("$buildDir/plugins") }
 
 repositories {
@@ -56,7 +57,7 @@ subprojects {
         implementation("com.google.guava:guava:31.1-jre")
         implementation("com.oath.cyclops:cyclops:10.4.1")
 
-        implementation("org.pf4j:pf4j:3.8.0")
+        implementation("org.pf4j:pf4j:$pf4jVersion")
 
         implementation("net.java.dev.jna:jna:5.13.0")
         implementation("com.alphacephei:vosk:0.3.45")
