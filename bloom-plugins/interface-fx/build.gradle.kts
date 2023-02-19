@@ -3,7 +3,7 @@ plugins {
 }
 
 javafx {
-    version = "17"
+    version = "19"
     modules = listOf(
         "javafx.controls",
         "javafx.fxml",
