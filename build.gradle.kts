@@ -2,18 +2,23 @@ import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
     `java-library`
-    id("org.springframework.boot") version "2.6.0" apply false
-    id("io.spring.dependency-management") version "1.0.11.RELEASE"
-    id("io.freefair.lombok") version "6.3.0"
+    id("org.springframework.boot") version "3.0.2" apply false
+    id("io.spring.dependency-management") version "1.1.0"
+    id("io.freefair.lombok") version "6.6.2"
+    id("org.javamodularity.moduleplugin") version "1.8.12"
 }
 
-val pf4jVersion: String by project
 val pluginsDir by extra { file("$buildDir/plugins") }
 
 repositories {
     mavenCentral()
     maven(url = "https://repo.spring.io/milestone")
     maven(url = "https://repo.spring.io/snapshot")
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 tasks.named("build") {
@@ -41,30 +46,20 @@ subprojects {
         maven(url = "https://oss.sonatype.org/content/repositories/snapshots")
     }
 
-    lombok {
-        version.set("1.18.22")
-    }
-
-    ext["junit-jupiter.version"] = "5.8.2"
-
     dependencyManagement {
         imports {
             mavenBom(SpringBootPlugin.BOM_COORDINATES)
         }
     }
 
-    val voskVersion = "0.3.33"
-
     dependencies {
-        implementation("com.google.guava:guava:31.0.1-jre")
-        implementation("com.oath.cyclops:cyclops:10.4.0")
+        implementation("com.google.guava:guava:31.1-jre")
+        implementation("com.oath.cyclops:cyclops:10.4.1")
 
-        implementation("org.pf4j:pf4j-spring:0.7.0") {
-            exclude(group = "org.slf4j")
-        }
+        implementation("org.pf4j:pf4j:3.8.0")
 
-        implementation("net.java.dev.jna:jna:5.9.0")
-        implementation("com.alphacephei:vosk:$voskVersion")
+        implementation("net.java.dev.jna:jna:5.13.0")
+        implementation("com.alphacephei:vosk:0.3.45")
 
         testImplementation("org.junit.jupiter:junit-jupiter-api")
         testImplementation("org.junit.jupiter:junit-jupiter-params")
