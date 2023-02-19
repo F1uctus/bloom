@@ -30,10 +30,10 @@ subprojects {
             with(tasks.named<Jar>("jar").get())
         }
 
-        dependsOn(configurations["compileOnly"])
+        dependsOn(tasks.named<Jar>("jar"))
         into("lib") {
             from({
-                configurations["compileOnly"].filter { it.name.endsWith("jar") }
+                configurations["compileClasspath"].filter { it.name.endsWith("jar") }
             })
         }
         archiveExtension.set("zip")
