@@ -1,7 +1,6 @@
 package com.f1uctus.bloom.application.controllers.settings;
 
 import com.f1uctus.bloom.application.controllers.StageReadyEvent;
-import com.f1uctus.bloom.core.persistence.models.User;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.AllArgsConstructor;
@@ -25,7 +24,8 @@ public class SettingsStageReady implements StageReadyEvent<SettingsController> {
         this.tab = tab;
     }
 
-    @Override public void setupController(SettingsController controller) {
+    @Override
+    public void setupController(SettingsController controller) {
         controller.setTab(tab);
         controller.afterSetup();
     }

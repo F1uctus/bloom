@@ -1,10 +1,10 @@
 package com.f1uctus.bloom.core.persistence.models;
 
 import com.f1uctus.bloom.plugins.coreinterface.identity.IdentityHolder;
+import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
-import jakarta.persistence.*;
 import java.util.Set;
 import java.util.UUID;
 

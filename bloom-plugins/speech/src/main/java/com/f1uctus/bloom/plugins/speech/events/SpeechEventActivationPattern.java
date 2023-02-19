@@ -8,7 +8,8 @@ import java.util.regex.Pattern;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter @Setter
+@Getter
+@Setter
 public final class SpeechEventActivationPattern implements ActivationPattern<SpeechEvent> {
     Pattern textPattern;
 
@@ -18,15 +19,18 @@ public final class SpeechEventActivationPattern implements ActivationPattern<Spe
         );
     }
 
-    @Override public String getName() {
+    @Override
+    public String getName() {
         return "Speech";
     }
 
-    @Override public boolean matches(Event event) {
+    @Override
+    public boolean matches(Event event) {
         return event instanceof SpeechEvent e && textPattern.asMatchPredicate().test(e.getText());
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
         return getName() + ": \"" + textPattern.toString() + "\"";
     }
 }

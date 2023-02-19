@@ -37,7 +37,8 @@ public class WorkflowsController extends ReactiveController {
 
     @Setter User user;
 
-    @Override public void initialize() {
+    @Override
+    public void initialize() {
         tx = new TransactionTemplate(txManager);
         user = (User) host.getIdentityHolder();
 
@@ -53,7 +54,8 @@ public class WorkflowsController extends ReactiveController {
         tree.setRoot(root);
     }
 
-    @Override public void afterSetup() {
+    @Override
+    public void afterSetup() {
         getStage().setOnCloseRequest(this::onClose);
         // Load workflow tree
         loadToTree(workflows.findByUser(user));
@@ -137,7 +139,8 @@ public class WorkflowsController extends ReactiveController {
         }
     }
 
-    @Override public Stage getStage() {
+    @Override
+    public Stage getStage() {
         return (Stage) tree.getScene().getWindow();
     }
 }

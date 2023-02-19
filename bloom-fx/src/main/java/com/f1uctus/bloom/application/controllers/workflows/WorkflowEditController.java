@@ -29,14 +29,16 @@ public class WorkflowEditController extends ReactiveController {
 
     @Setter Workflow workflow;
 
-    @Override public void initialize() {
+    @Override
+    public void initialize() {
         actionPlugins = context.getBeansOfType(ActionPlugin.class).values().stream()
             .map(ap -> (ActionPlugin<?>) ap).collect(toList());
         actionsList.setEditable(true);
         actionsList.setCellFactory(lv -> new ActionListCell(actionPlugins));
     }
 
-    @Override public void afterSetup() {
+    @Override
+    public void afterSetup() {
         name.setText(workflow.getName());
         actionsList.setItems(observableArrayList(workflow.getActions()));
 
@@ -45,7 +47,8 @@ public class WorkflowEditController extends ReactiveController {
         });
     }
 
-    @Override public Stage getStage() {
+    @Override
+    public Stage getStage() {
         return (Stage) actionsList.getScene().getWindow();
     }
 

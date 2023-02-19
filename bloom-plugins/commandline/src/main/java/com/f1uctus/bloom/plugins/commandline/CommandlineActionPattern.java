@@ -5,7 +5,8 @@ import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter @Setter
+@Getter
+@Setter
 public class CommandlineActionPattern implements ActionPayloadPattern {
     String command;
 
@@ -15,11 +16,13 @@ public class CommandlineActionPattern implements ActionPayloadPattern {
         );
     }
 
-    @Override public String getName() {
+    @Override
+    public String getName() {
         return "Runtime command (no result)";
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
         return getName() + ": \"" + command + "\"";
     }
 }

@@ -6,7 +6,8 @@ import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.control.LabeledMatchers.hasText;
 
 public class WelcomeControllerTests extends TestFXBase {
-    @Override public void start(Stage stage) {
+    @Override
+    public void start(Stage stage) {
         loadController(stage, WelcomeController.class);
     }
 

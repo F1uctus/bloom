@@ -22,13 +22,15 @@ public class WelcomeController extends ReactiveController {
         System.out.println("Done");
     }
 
-    @Override public void terminate() {
+    @Override
+    public void terminate() {
         // Disposes all previously subscribed handlers
         authMethods.getChildren().clear();
         super.terminate();
     }
 
-    @Override public Stage getStage() {
+    @Override
+    public Stage getStage() {
         return (Stage) authMethods.getScene().getWindow();
     }
 }

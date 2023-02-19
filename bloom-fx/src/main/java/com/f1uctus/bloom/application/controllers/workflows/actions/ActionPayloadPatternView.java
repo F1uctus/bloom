@@ -38,7 +38,7 @@ public class ActionPayloadPatternView extends HBox {
         eventType.setItems(observableArrayList(actionPlugins.stream()
             .map(ActionPlugin::payloadTemplate)
             .map(pattern -> action.getProperties() != null
-                            && pattern.getClass().isInstance(action.getProperties())
+                && pattern.getClass().isInstance(action.getProperties())
                 ? action.getProperties()
                 : pattern)
             .collect(toList())));
@@ -86,8 +86,8 @@ public class ActionPayloadPatternView extends HBox {
                 new Alert(Alert.AlertType.ERROR, form.getConstraintViolations()
                     .stream()
                     .map(v -> Iterators.getLast(v.getPropertyPath().iterator())
-                              + " "
-                              + v.getMessage())
+                        + " "
+                        + v.getMessage())
                     .collect(Collectors.joining("\n"))
                 ).showAndWait();
                 return;

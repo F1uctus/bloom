@@ -11,7 +11,8 @@ public class MainStageReady implements StageReadyEvent<MainController> {
     Class<MainController> controllerClass = MainController.class;
     Stage stage;
 
-    @Override public void setupController(MainController controller) {
+    @Override
+    public void setupController(MainController controller) {
         controller.afterSetup();
     }
 }

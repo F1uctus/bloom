@@ -4,10 +4,10 @@ import com.f1uctus.bloom.core.Json;
 import com.f1uctus.bloom.core.plugins.PluginConfiguration;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
-import jakarta.persistence.*;
 import java.util.UUID;
 
 @JsonIgnoreProperties("new")

@@ -19,7 +19,8 @@ public class WorkflowEditStageReady implements StageReadyEvent<WorkflowEditContr
         this.workflow = workflow;
     }
 
-    @Override public void setupController(WorkflowEditController controller) {
+    @Override
+    public void setupController(WorkflowEditController controller) {
         controller.setWorkflow(workflow);
         controller.afterSetup();
     }

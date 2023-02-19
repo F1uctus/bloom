@@ -38,7 +38,7 @@ public class TriggerPatternView extends HBox {
         eventType.setItems(observableArrayList(eventPlugins.stream()
             .map(EventPlugin::patternTemplate)
             .map(t -> trigger.getProperties() != null
-                      && t.getClass().isInstance(trigger.getProperties())
+                && t.getClass().isInstance(trigger.getProperties())
                 ? trigger.getProperties()
                 : t)
             .collect(toList())));
@@ -86,8 +86,8 @@ public class TriggerPatternView extends HBox {
                 new Alert(Alert.AlertType.ERROR, form.getConstraintViolations()
                     .stream()
                     .map(v -> Iterators.getLast(v.getPropertyPath().iterator())
-                              + " "
-                              + v.getMessage())
+                        + " "
+                        + v.getMessage())
                     .collect(Collectors.joining("\n"))
                 ).showAndWait();
                 return;

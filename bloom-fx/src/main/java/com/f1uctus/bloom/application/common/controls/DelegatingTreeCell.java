@@ -11,18 +11,21 @@ public class DelegatingTreeCell<T> extends TreeCell<T> {
     final Map<Class<?>, Supplier<TreeCellDelegate<?>>> delegateCandidates;
     TreeCellDelegate<T> delegate;
 
-    @Override public void startEdit() {
+    @Override
+    public void startEdit() {
         super.startEdit();
         delegate.startEdit();
     }
 
-    @Override public void cancelEdit() {
+    @Override
+    public void cancelEdit() {
         super.cancelEdit();
         delegate.cancelEdit();
     }
 
     @SuppressWarnings("unchecked")
-    @Override public void updateItem(T item, boolean empty) {
+    @Override
+    public void updateItem(T item, boolean empty) {
         super.updateItem(item, empty);
         if (empty || item == null) {
             setText(null);

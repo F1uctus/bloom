@@ -7,7 +7,8 @@ import static lombok.AccessLevel.PRIVATE;
 
 @AllArgsConstructor(access = PRIVATE)
 @NoArgsConstructor
-@Getter @Setter
+@Getter
+@Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class SpeechEvent implements Event {
     @EqualsAndHashCode.Include
@@ -22,9 +23,8 @@ public class SpeechEvent implements Event {
         return new SpeechEvent(text, true);
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
         return text;
     }
-
-
 }

@@ -38,7 +38,8 @@ public class MainController extends ReactiveController {
     @FXML TextField commandBox;
     @FXML TableView<Pair<Instant, String>> logArea;
 
-    @Override public void initialize() {
+    @Override
+    public void initialize() {
         logArea.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         var logTimeColumn = new TableColumn<Pair<Instant, String>, String>();
         logTimeColumn.setMinWidth(100);
@@ -91,11 +92,13 @@ public class MainController extends ReactiveController {
         context.publishEvent(new SettingsStageReady(SettingsController.Tab.PLUGINS));
     }
 
-    @Override public void terminate() {
+    @Override
+    public void terminate() {
         super.terminate();
     }
 
-    @Override public Stage getStage() {
+    @Override
+    public Stage getStage() {
         return (Stage) commandBox.getScene().getWindow();
     }
 }

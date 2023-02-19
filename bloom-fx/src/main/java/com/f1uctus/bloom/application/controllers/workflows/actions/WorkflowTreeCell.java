@@ -14,15 +14,18 @@ public class WorkflowTreeCell implements TreeCellDelegate<Workflow> {
     final ApplicationContext context;
     DelegatingTreeCell<Workflow> cell;
 
-    @Override public void setCell(DelegatingTreeCell<Workflow> cell) {
+    @Override
+    public void setCell(DelegatingTreeCell<Workflow> cell) {
         this.cell = cell;
     }
 
-    @Override public void startEdit() {
+    @Override
+    public void startEdit() {
         context.publishEvent(new WorkflowEditStageReady(cell.getItem()));
     }
 
-    @Override public void updateItem() {
+    @Override
+    public void updateItem() {
         cell.setText(getString());
 //        cell.setGraphic(cell.getTreeItem().getGraphic());
     }

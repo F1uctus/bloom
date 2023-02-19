@@ -17,18 +17,21 @@ public class TriggerTreeCell implements TreeCellDelegate<Trigger> {
     DelegatingTreeCell<Trigger> cell;
     Node properties;
 
-    @Override public void setCell(DelegatingTreeCell<Trigger> cell) {
+    @Override
+    public void setCell(DelegatingTreeCell<Trigger> cell) {
         this.cell = cell;
     }
 
-    @Override public void startEdit() {
+    @Override
+    public void startEdit() {
         if (properties == null) {
             properties = new TriggerPatternView(eventPlugins, cell.getItem());
         }
         updateItem();
     }
 
-    @Override public void updateItem() {
+    @Override
+    public void updateItem() {
         if (cell.isEditing()) {
             cell.setText(null);
             cell.setGraphic(properties);

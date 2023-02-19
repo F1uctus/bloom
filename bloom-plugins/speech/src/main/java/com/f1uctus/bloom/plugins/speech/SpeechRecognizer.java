@@ -108,7 +108,8 @@ public class SpeechRecognizer implements AutoCloseable {
         return new String(input.getBytes(), UTF_8);
     }
 
-    @Override public void close() {
+    @Override
+    public void close() {
         microphone.close();
         model.close();
     }

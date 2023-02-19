@@ -26,14 +26,16 @@ public class BloomPluginHost implements PluginHost {
     final WorkflowRepository workflows;
     User user;
 
-    @EventListener public void on(Event event) {
+    @EventListener
+    public void on(Event event) {
         workflows.findByUser(user).stream()
             .filter(w -> w.getTriggers().stream().anyMatch(t -> t.getProperties().matches(event)))
             .forEach(w -> context.publishEvent(new WorkflowMatchEvent(w)));
     }
 
     @SuppressWarnings("unchecked")
-    @EventListener public void on(WorkflowMatchEvent event) {
+    @EventListener
+    public void on(WorkflowMatchEvent event) {
         for (var action : event.getWorkflow().getActions()) {
             context.getBeansOfType(ActionPlugin.class).values().stream()
                 .filter(ap -> ap.supports(action.getProperties()))
@@ -42,19 +44,22 @@ public class BloomPluginHost implements PluginHost {
         }
     }
 
-    @Override public IdentityRepository<?> getIdentityRepository() {
+    @Override
+    public IdentityRepository<?> getIdentityRepository() {
         return users;
     }
 
-    @Override public IdentityHolder getIdentityHolder() {
+    @Override
+    public IdentityHolder getIdentityHolder() {
         return user;
     }
 
-    @Override public void setIdentityHolder(IdentityHolder holder) {
-        if (holder instanceof User user) {
-            this.user = user;
-            System.out.println("Logged in as " + user);
-            context.publishEvent(new LoginEvent(user));
+    @Override
+    public void setIdentityHolder(IdentityHolder holder) {
+        if (holder instanceof User u) {
+            this.user = u;
+            System.out.println("Logged in as " + u);
+            context.publishEvent(new LoginEvent(u));
         }
     }
 }

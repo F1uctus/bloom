@@ -2,15 +2,16 @@ package com.f1uctus.bloom.core.persistence.models;
 
 import com.f1uctus.bloom.core.Json;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.*;
 
-import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @NoArgsConstructor
-@Getter @Setter
+@Getter
+@Setter
 public class Workflow extends PropertiedEntity<Void> {
     @JsonIgnore
     @ManyToOne
@@ -29,7 +30,8 @@ public class Workflow extends PropertiedEntity<Void> {
         this.name = name;
     }
 
-    @Override protected String getState() {
+    @Override
+    protected String getState() {
         return Json.ser(this, SkipRelations.class);
     }
 
@@ -41,9 +43,10 @@ public class Workflow extends PropertiedEntity<Void> {
         List<Action> getActions();
     }
 
-    @Override public boolean isChanged() {
+    @Override
+    public boolean isChanged() {
         return super.isChanged()
-               || triggers.stream().anyMatch(PropertiedEntity::isChanged)
-               || actions.stream().anyMatch(PropertiedEntity::isChanged);
+            || triggers.stream().anyMatch(PropertiedEntity::isChanged)
+            || actions.stream().anyMatch(PropertiedEntity::isChanged);
     }
 }

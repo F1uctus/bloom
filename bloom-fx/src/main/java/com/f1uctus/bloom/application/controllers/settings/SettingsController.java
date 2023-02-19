@@ -23,7 +23,8 @@ public class SettingsController extends ReactiveController {
 
     Seq<Label> plugins;
 
-    @Override public void initialize() {
+    @Override
+    public void initialize() {
         plugins = Seq.fromIterable(List.of()).map(p -> new Label(p.getClass().getSimpleName()));
         tabPane.layoutBoundsProperty().addListener((o, old, upd) -> {
             var cols = recomputeGridColumns(upd, plugins.toList());
@@ -41,7 +42,8 @@ public class SettingsController extends ReactiveController {
         tabPane.getSelectionModel().select(tab.ordinal());
     }
 
-    @Override public Stage getStage() {
+    @Override
+    public Stage getStage() {
         return (Stage) tabPane.getScene().getWindow();
     }
 

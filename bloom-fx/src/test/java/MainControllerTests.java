@@ -19,7 +19,8 @@ public class MainControllerTests extends TestFXBase {
     @Autowired
     UserRepository users;
 
-    @Override public void start(Stage stage) {
+    @Override
+    public void start(Stage stage) {
         context.publishEvent(new LoginEvent(users.findAll().get(0)));
 
         loadController(stage, MainController.class);
@@ -35,7 +36,8 @@ public class MainControllerTests extends TestFXBase {
     void new_events_appear_in_log_view() {
         final var bogus = "Test event";
         context.publishEvent(new Event() {
-            @Override public String toString() {
+            @Override
+            public String toString() {
                 return bogus;
             }
         });

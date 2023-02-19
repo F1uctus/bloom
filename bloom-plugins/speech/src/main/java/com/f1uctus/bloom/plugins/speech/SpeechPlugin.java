@@ -33,12 +33,14 @@ public class SpeechPlugin extends Plugin {
     }
 
     @SneakyThrows
-    @Override public void start() {
+    @Override
+    public void start() {
         properties.load(getClass().getResourceAsStream("/recognizer.properties"));
         recognizer = new SpeechRecognizer(properties);
     }
 
-    @Override public void stop() {
+    @Override
+    public void stop() {
         recognizer.close();
     }
 
@@ -91,11 +93,13 @@ public class SpeechPlugin extends Plugin {
             );
         }
 
-        @Override public ActivationPattern<SpeechEvent> patternTemplate() {
+        @Override
+        public ActivationPattern<SpeechEvent> patternTemplate() {
             return SpeechEventActivationPattern.template();
         }
 
-        @Override public Properties getProperties() {
+        @Override
+        public Properties getProperties() {
             return properties;
         }
 

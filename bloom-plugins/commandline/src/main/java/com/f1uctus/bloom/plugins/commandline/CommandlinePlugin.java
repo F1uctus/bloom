@@ -18,15 +18,18 @@ public class CommandlinePlugin extends Plugin {
     public static class CommandlinePluginImpl implements ActionPlugin<CommandlineActionPattern> {
         PluginHost host;
 
-        @Override public Class<CommandlineActionPattern> getPayloadClass() {
+        @Override
+        public Class<CommandlineActionPattern> getPayloadClass() {
             return CommandlineActionPattern.class;
         }
 
-        @Override public CommandlineActionPattern payloadTemplate() {
+        @Override
+        public CommandlineActionPattern payloadTemplate() {
             return CommandlineActionPattern.template();
         }
 
-        @Override public void execute(CommandlineActionPattern pattern) {
+        @Override
+        public void execute(CommandlineActionPattern pattern) {
             try {
                 Runtime.getRuntime().exec(pattern.getCommand());
             } catch (IOException e) {
@@ -34,7 +37,8 @@ public class CommandlinePlugin extends Plugin {
             }
         }
 
-        @Override public Properties getProperties() {
+        @Override
+        public Properties getProperties() {
             return properties;
         }
 

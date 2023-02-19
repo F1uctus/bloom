@@ -18,7 +18,8 @@ public class ActionListCell extends ListCell<Action> {
         this.actionPlugins = actionPlugins;
     }
 
-    @Override public void startEdit() {
+    @Override
+    public void startEdit() {
         super.startEdit();
         if (properties == null) {
             properties = new ActionPayloadPatternView(actionPlugins, getItem());
@@ -27,13 +28,15 @@ public class ActionListCell extends ListCell<Action> {
         setGraphic(properties);
     }
 
-    @Override public void cancelEdit() {
+    @Override
+    public void cancelEdit() {
         super.cancelEdit();
         setText(getString());
         setGraphic(null);
     }
 
-    @Override public void updateItem(Action item, boolean empty) {
+    @Override
+    public void updateItem(Action item, boolean empty) {
         super.updateItem(item, empty);
         if (empty || item == null) {
             setText(null);
