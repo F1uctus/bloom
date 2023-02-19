@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/bloom-core/bloom.bloom-core.main.iml" filepath="$PROJECT_DIR$/.idea/modules/bloom-core/bloom.bloom-core.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/bloom-fx/bloom.bloom-fx.main.iml" filepath="$PROJECT_DIR$/.idea/modules/bloom-fx/bloom.bloom-fx.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/bloom-fx/bloom.bloom-fx.test.iml" filepath="$PROJECT_DIR$/.idea/modules/bloom-fx/bloom.bloom-fx.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/bloom-plugins/commandline/bloom.bloom-plugins.commandline.main.iml" filepath="$PROJECT_DIR$/.idea/modules/bloom-plugins/commandline/bloom.bloom-plugins.commandline.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/bloom-plugins/interface-fx/bloom.bloom-plugins.interface-fx.main.iml" filepath="$PROJECT_DIR$/.idea/modules/bloom-plugins/interface-fx/bloom.bloom-plugins.interface-fx.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/bloom-plugins/interface/bloom.bloom-plugins.interface.main.iml" filepath="$PROJECT_DIR$/.idea/modules/bloom-plugins/interface/bloom.bloom-plugins.interface.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/bloom-plugins/speech/bloom.bloom-plugins.speech.main.iml" filepath="$PROJECT_DIR$/.idea/modules/bloom-plugins/speech/bloom.bloom-plugins.speech.main.iml" />
+    </modules>
+  </component>
+</project>
