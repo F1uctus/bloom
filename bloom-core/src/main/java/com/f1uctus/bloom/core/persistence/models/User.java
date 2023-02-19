@@ -4,7 +4,7 @@ import com.f1uctus.bloom.plugins.coreinterface.identity.IdentityHolder;
 import lombok.*;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.Set;
 import java.util.UUID;
 

@@ -4,8 +4,8 @@ import com.f1uctus.bloom.plugins.coreinterface.events.ActivationPattern;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 @NoArgsConstructor
