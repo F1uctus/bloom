@@ -7,15 +7,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import lombok.RequiredArgsConstructor;
 import net.rgielen.fxweaver.core.FxWeaver;
-import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
 public class StageInitializer {
-    final ApplicationContext context;
-    final FxWeaver fx;
+    final ConfigurableApplicationContext context;
+    FxWeaver fx;
     BaseController lastController;
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
