@@ -10,7 +10,6 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 public class MainApplication extends Application {
     ConfigurableApplicationContext context;
-    private static PluginManager pm;
 
     @Override
     public void init() {
@@ -18,8 +17,6 @@ public class MainApplication extends Application {
             .sources(JavaFxWeaverApplication.class)
             .headless(false)
             .run(getParameters().getRaw().toArray(new String[0]));
-
-        pm = context.getBean(PluginManager.class);
     }
 
     @Override
@@ -29,8 +26,10 @@ public class MainApplication extends Application {
 
     @Override
     public void stop() {
+        var pm = context.getBean(PluginManager.class);
         pm.stopPlugins();
         pm.unloadPlugins();
+        context.close();
         Platform.exit();
     }
 }
