@@ -23,6 +23,7 @@ java {
 }
 
 tasks.named("build") {
+    dependsOn(":bloom-plugins:assemblePlugins")
     dependsOn(":bloom-fx:bootJar")
 }
 
