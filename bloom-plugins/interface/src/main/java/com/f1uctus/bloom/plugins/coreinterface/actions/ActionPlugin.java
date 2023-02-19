@@ -1,9 +1,8 @@
 package com.f1uctus.bloom.plugins.coreinterface.actions;
 
 import com.f1uctus.bloom.plugins.coreinterface.BasePlugin;
-import org.pf4j.ExtensionPoint;
 
-public interface ActionPlugin<P extends ActionPayloadPattern> extends ExtensionPoint, BasePlugin {
+public interface ActionPlugin<P extends ActionPayloadPattern> extends BasePlugin {
     Class<P> getPayloadClass();
 
     P payloadTemplate();
