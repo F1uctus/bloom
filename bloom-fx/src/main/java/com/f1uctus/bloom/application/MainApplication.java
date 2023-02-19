@@ -12,7 +12,8 @@ public class MainApplication extends Application {
     ConfigurableApplicationContext context;
     private static PluginManager pm;
 
-    @Override public void init() {
+    @Override
+    public void init() {
         context = new SpringApplicationBuilder()
             .sources(JavaFxWeaverApplication.class)
             .headless(false)
@@ -21,12 +22,13 @@ public class MainApplication extends Application {
         pm = context.getBean(PluginManager.class);
     }
 
-    @Override public void start(Stage primaryStage) {
+    @Override
+    public void start(Stage primaryStage) {
         context.publishEvent(new WelcomeStageReady(primaryStage));
     }
 
-    @Override public void stop() {
-        context.close();
+    @Override
+    public void stop() {
         pm.stopPlugins();
         pm.unloadPlugins();
         Platform.exit();

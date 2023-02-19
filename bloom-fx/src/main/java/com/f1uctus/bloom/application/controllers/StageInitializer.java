@@ -25,11 +25,18 @@ public class StageInitializer {
         if (lastController != null && lastController.getStage() == stage) {
             lastController.terminate();
         }
+        if (fx == null) {
+            fx = new FxWeaver(context::getBean, context::close);
+        }
         var controllerAndView = fx.load(event.getControllerClass());
-        stage.setScene(new Scene((Parent) controllerAndView.getView().orElseThrow()));
+        stage.setScene(new Scene(
+            (Parent) controllerAndView.getView().orElseThrow()
+        ));
         stage.show();
         stage.toFront();
-        event.setupController((ReactiveController) controllerAndView.getController());
+        event.setupController(
+            (ReactiveController) controllerAndView.getController()
+        );
         lastController = (BaseController) controllerAndView.getController();
     }
 

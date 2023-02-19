@@ -69,7 +69,10 @@ public class SpeechRecognizer implements AutoCloseable {
         microphone.flush();
         microphone.start();
         return Flux.generate(
-            () -> new Recognizer(model, INPUT_FORMAT.getSampleRate() * INPUT_FORMAT.getChannels()),
+            () -> new Recognizer(
+                model,
+                INPUT_FORMAT.getSampleRate() * INPUT_FORMAT.getChannels()
+            ),
             (Recognizer recognizer, SynchronousSink<SpeechEvent> sink) -> {
                 assert recognizer != null;
                 try {
