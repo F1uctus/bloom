@@ -1,27 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-
-<VBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.f1uctus.bloom.application.controllers.welcome.WelcomeController">
+<VBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.f1uctus.bloom.application.controllers.welcome.WelcomeController">
     <HBox alignment="CENTER">
         <VBox alignment="CENTER">
             <Label alignment="CENTER" maxWidth="300.0" text="Bloom" textAlignment="CENTER" wrapText="true">
                 <font>
-                    <Font name="System Italic" size="24.0" />
+                    <Font name="System Italic" size="24.0"/>
                 </font>
             </Label>
-            <Label alignment="CENTER" maxWidth="300.0" text="Desktop automation system" textAlignment="CENTER" wrapText="true" />
-            <Region prefHeight="10.0" />
-            <Label alignment="CENTER" maxWidth="350.0" text="Для начала работы, пожалуйста, авторизуйтесь любым из перечисленных методов:" textAlignment="CENTER" wrapText="true">
+            <Label alignment="CENTER" maxWidth="300.0" text="Desktop automation system" textAlignment="CENTER"
+                   wrapText="true"/>
+            <Region prefHeight="10.0"/>
+            <Label alignment="CENTER" maxWidth="350.0"
+                   text="Для начала работы, пожалуйста, авторизуйтесь любым из перечисленных методов:"
+                   textAlignment="CENTER" wrapText="true">
                 <font>
-                    <Font size="14.0" />
+                    <Font size="14.0"/>
                 </font>
             </Label>
-            <VBox fx:id="authMethods" alignment="CENTER" minHeight="50.0" />
+            <VBox fx:id="authMethods" alignment="CENTER" minHeight="50.0"/>
         </VBox>
     </HBox>
 </VBox>
