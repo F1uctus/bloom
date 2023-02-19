@@ -38,7 +38,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
 
     implementation("net.rgielen:javafx-weaver-spring-boot-starter:1.3.0")
-    implementation("org.reactivestreams:reactive-streams:1.0.3")
+    implementation("org.reactivestreams:reactive-streams:1.0.4")
     implementation("org.pdfsam.rxjava3:rxjavafx:3.0.2")
     implementation("com.dooapp.fxform2:core:9.0.0")
 
