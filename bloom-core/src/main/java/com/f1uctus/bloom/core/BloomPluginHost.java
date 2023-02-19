@@ -17,7 +17,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
-@Component
+@Component("pluginHost")
 @Slf4j
 @RequiredArgsConstructor
 public class BloomPluginHost implements PluginHost {

@@ -20,8 +20,8 @@ spring:
         enable_lazy_load_no_trans: true
 
 plugins:
-  root: ../bloom-plugins/build/plugins
+  roots: ./plugins,../plugins,./bloom-plugins/build/plugins,../bloom-plugins/build/plugins
 
 logging.level:
-#  com: debug
+  #  com: debug
   org.pf4j: debug

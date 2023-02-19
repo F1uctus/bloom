@@ -4,21 +4,24 @@ import org.pf4j.PluginManager;
 import org.pf4j.PluginWrapper;
 import org.pf4j.spring.SpringPluginManager;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.*;
 
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.List;
 
 @Configuration
 public class PluginConfiguration {
     private static PluginManager manager;
 
+    @DependsOn("pluginHost")
     @Bean
     PluginManager pluginManager(
-        @Value("${plugins.root}") String pluginsRoot
+        @Value("${plugins.roots}") String pluginsRoots
     ) {
-        manager = new SpringPluginManager(Path.of(pluginsRoot));
+        manager = new SpringPluginManager(
+            Arrays.stream(pluginsRoots.split(",")).map(Path::of).toList()
+        );
         return manager;
     }
 
