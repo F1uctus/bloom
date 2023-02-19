@@ -1,6 +1,7 @@
 import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
+    `version-catalog`
     `java-library`
     id("org.springframework.boot") version "3.0.2" apply false
     id("io.spring.dependency-management") version "1.1.0"
@@ -8,7 +9,6 @@ plugins {
     id("org.javamodularity.moduleplugin") version "1.8.12"
 }
 
-val pf4jVersion: String by project
 val pluginsDir by extra { file("$buildDir/plugins") }
 
 repositories {
@@ -53,21 +53,23 @@ subprojects {
             mavenBom(SpringBootPlugin.BOM_COORDINATES)
         }
     }
+    
+    val libs = rootProject.libs
 
     dependencies {
-        implementation("com.google.guava:guava:31.1-jre")
-        implementation("com.oath.cyclops:cyclops:10.4.1")
+        implementation(libs.guava)
+        implementation(libs.cyclops)
 
-        implementation("org.pf4j:pf4j:$pf4jVersion")
+        implementation(libs.pf4j)
 
-        implementation("net.java.dev.jna:jna:5.13.0")
-        implementation("com.alphacephei:vosk:0.3.45")
+        implementation(libs.jna)
+        implementation(libs.vosk)
 
-        testImplementation("org.junit.jupiter:junit-jupiter-api")
-        testImplementation("org.junit.jupiter:junit-jupiter-params")
-        testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+        testImplementation(libs.jupiter.api)
+        testImplementation(libs.jupiter.params)
+        testRuntimeOnly(libs.jupiter.engine)
 
-        annotationProcessor("org.projectlombok:lombok")
+        annotationProcessor(libs.lombok)
     }
 
     configurations.all {

@@ -2,7 +2,6 @@ plugins {
     kotlin("jvm") version "1.8.10"
 }
 
-val pf4jVersion: String by project
 val pluginsDir by extra { file("$buildDir/plugins") }
 
 subprojects {
@@ -67,7 +66,7 @@ subprojects {
     }
 
     dependencies {
-        annotationProcessor("org.pf4j:pf4j:$pf4jVersion")
+        annotationProcessor(rootProject.libs.pf4j)
     }
 }
 

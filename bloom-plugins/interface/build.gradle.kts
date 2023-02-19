@@ -1,6 +1,6 @@
 dependencies {
-    implementation("org.reactivestreams:reactive-streams:1.0.4")
-    implementation("io.projectreactor:reactor-core:3.5.3")
+    implementation(libs.reactive.streams)
+    implementation(libs.reactor.core)
 
-    implementation("com.fasterxml.jackson.core:jackson-databind")
+    implementation(libs.jackson.databind)
 }

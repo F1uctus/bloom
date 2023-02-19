@@ -2,11 +2,11 @@ dependencies {
     implementation(project(":bloom-plugins:interface"))
     implementation(project(":bloom-plugins:interface-fx"))
 
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("com.fasterxml.jackson.core:jackson-databind")
+    implementation(libs.spring.boot.starter.data.jpa)
+    implementation(libs.jackson.databind)
 
-    runtimeOnly("com.h2database:h2")
-    runtimeOnly("io.r2dbc:r2dbc-h2")
+    runtimeOnly(libs.h2)
+    runtimeOnly(libs.h2.r2dbc)
 
-    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+    annotationProcessor(libs.spring.boot.configuration.processor)
 }
