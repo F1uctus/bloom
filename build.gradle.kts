@@ -42,7 +42,8 @@ subprojects {
 
     repositories {
         mavenCentral()
-        maven(url = "https://alphacephei.com/maven/")
+        maven(url = "https://maven.pkg.github.com/f1uctus/fxform2")
+        maven(url = "https://alphacephei.com/maven")
         maven(url = "https://repo.spring.io/milestone")
         maven(url = "https://repo.spring.io/snapshot")
         maven(url = "https://oss.sonatype.org/content/repositories/snapshots")
@@ -53,7 +54,7 @@ subprojects {
             mavenBom(SpringBootPlugin.BOM_COORDINATES)
         }
     }
-    
+
     val libs = rootProject.libs
 
     dependencies {

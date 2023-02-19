@@ -29,7 +29,7 @@ dependencyResolutionManagement {
             library("reactive-streams", "org.reactivestreams:reactive-streams:1.0.4")
             library("reactor-core", "io.projectreactor:reactor-core:3.5.3")
             library("rxjavafx", "org.pdfsam.rxjava3:rxjavafx:3.0.2")
-            library("fxform2", "com.dooapp.fxform2:core:9.0.0")
+            library("fxform2", "com.github.f1uctus.fxform2:core:10.0.0-SNAPSHOT")
             library("testfx-junit5", "org.testfx:testfx-junit5:4.0.16-alpha")
             library("testfx-monocle", "org.testfx:openjfx-monocle:jdk-12.0.1+2")
         }
