@@ -11,18 +11,17 @@ import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.layout.HBox;
-import javafx.scene.text.Font;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.pf4j.*;
 import reactor.adapter.JdkFlowAdapter;
 
+import java.io.IOException;
 import java.util.Properties;
 import java.util.concurrent.Flow;
 
@@ -57,18 +56,19 @@ public class SpeechPlugin extends Plugin {
 
         @Override
         public Node buildAuthorizationView() {
-            var toggle = new ToggleButton("Speech");
-            var label = new Label();
-            label.setFont(new Font(14));
-            label.setText("Произнесите ключевую фразу");
+            var fl = new FXMLLoader(getClass().getResource("/SpeechAuthView.fxml"));
+            Parent root;
+            try {
+                root = fl.load();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+            var toggle = (ToggleButton) root.lookup("#toggle");
+            var label = (Label) root.lookup("#label");
             label.managedProperty().bind(label.visibleProperty());
             label.visibleProperty().bind(toggle.selectedProperty());
             label.visibleProperty().addListener(buildUIVisibleListener(toggle, label));
-            var box = new HBox(toggle, label);
-            box.setAlignment(Pos.CENTER);
-            box.setSpacing(10);
-            box.setPadding(new Insets(5));
-            return box;
+            return root;
         }
 
         @NotNull
