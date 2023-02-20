@@ -6,11 +6,12 @@ import com.google.common.collect.Iterators;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public interface CustomControl {
@@ -47,5 +48,19 @@ public interface CustomControl {
             }
         });
         stage.show();
+    }
+
+    default <T> ListCell<T> makeEmptyByDefaultCell(ListView<T> l, Function<T, String> renderer) {
+        return new ListCell<>() {
+            @Override
+            protected void updateItem(T item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setGraphic(null);
+                } else {
+                    setText(renderer.apply(item));
+                }
+            }
+        };
     }
 }

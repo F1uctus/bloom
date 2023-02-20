@@ -1,17 +1,17 @@
 package com.f1uctus.bloom.application.controllers.workflows.triggers;
 
+import com.f1uctus.bloom.application.common.CachedBeanStringConverter;
 import com.f1uctus.bloom.application.common.controls.CustomControl;
 import com.f1uctus.bloom.core.persistence.models.Trigger;
 import com.f1uctus.bloom.plugins.coreinterface.events.ActivationPattern;
 import com.f1uctus.bloom.plugins.coreinterface.events.EventPlugin;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.layout.HBox;
-import javafx.util.Callback;
-import javafx.util.StringConverter;
 
-import java.util.*;
+import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 import static javafx.beans.binding.Bindings.createObjectBinding;
@@ -31,23 +31,8 @@ public class TriggerPatternView extends HBox implements CustomControl {
                 ? trigger.getProperties()
                 : t)
             .collect(toList())));
-        eventType.setConverter(new TriggerTypeConverter());
-        eventType.setCellFactory(new Callback<>() {
-            @Override
-            public ListCell<ActivationPattern<?>> call(ListView<ActivationPattern<?>> l) {
-                return new ListCell<>() {
-                    @Override
-                    protected void updateItem(ActivationPattern<?> item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty || item == null) {
-                            setGraphic(null);
-                        } else {
-                            setText(item.getName());
-                        }
-                    }
-                };
-            }
-        });
+        eventType.setConverter(new CachedBeanStringConverter<>(ActivationPattern::getName));
+        eventType.setCellFactory(lv -> makeEmptyByDefaultCell(lv, ActivationPattern::getName));
         var pattern = new SimpleObjectProperty<ActivationPattern<?>>();
         pattern.bind(eventType.getSelectionModel().selectedItemProperty());
         if (trigger.getProperties() != null) {
@@ -58,23 +43,5 @@ public class TriggerPatternView extends HBox implements CustomControl {
             pattern
         ));
         editButton.setOnAction(e -> showGenericEditorFor(pattern, trigger::setProperties));
-    }
-
-    public static class TriggerTypeConverter extends StringConverter<ActivationPattern<?>> {
-        static Map<String, ActivationPattern<?>> cache = new HashMap<>();
-
-        @Override
-        public ActivationPattern<?> fromString(String s) {
-            return cache.get(s);
-        }
-
-        @Override
-        public String toString(ActivationPattern<?> object) {
-            if (object == null) {
-                return null;
-            }
-            cache.put(object.getName(), object);
-            return object.getName();
-        }
     }
 }
