@@ -21,7 +21,6 @@ import org.jetbrains.annotations.NotNull;
 import org.pf4j.*;
 import reactor.adapter.JdkFlowAdapter;
 
-import java.io.IOException;
 import java.util.Properties;
 import java.util.concurrent.Flow;
 
@@ -55,14 +54,10 @@ public class SpeechPlugin extends Plugin {
         }
 
         @Override
+        @SneakyThrows
         public Node buildAuthorizationView() {
             var fl = new FXMLLoader(getClass().getResource("/SpeechAuthView.fxml"));
-            Parent root;
-            try {
-                root = fl.load();
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
+            Parent root = fl.load();
             var toggle = (ToggleButton) root.lookup("#toggle");
             var label = (Label) root.lookup("#label");
             label.managedProperty().bind(label.visibleProperty());
