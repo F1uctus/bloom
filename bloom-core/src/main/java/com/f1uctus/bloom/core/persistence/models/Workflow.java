@@ -10,6 +10,7 @@ import java.util.List;
 
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 public class Workflow extends PropertiedEntity<Void> {
@@ -24,11 +25,6 @@ public class Workflow extends PropertiedEntity<Void> {
 
     @OneToMany(cascade = CascadeType.ALL) //
     final List<Action> actions = new ArrayList<>();
-
-    public Workflow(User user, String name) {
-        this.user = user;
-        this.name = name;
-    }
 
     @Override
     protected String getState() {

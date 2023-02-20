@@ -3,14 +3,12 @@ package com.f1uctus.bloom.core.persistence.models;
 import com.f1uctus.bloom.core.Json;
 import com.f1uctus.bloom.core.plugins.PluginConfiguration;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import java.util.UUID;
 
-@JsonIgnoreProperties("new")
 @MappedSuperclass
 @NoArgsConstructor
 public abstract class PropertiedEntity<T> extends AbstractPersistable<UUID> {

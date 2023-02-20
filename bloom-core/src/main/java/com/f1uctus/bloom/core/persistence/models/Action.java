@@ -8,14 +8,11 @@ import lombok.*;
 
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 public class Action extends PropertiedEntity<ActionPayloadPattern> {
     @JsonIgnore
     @ManyToOne
     User user;
-
-    public Action(User user) {
-        this.user = user;
-    }
 }

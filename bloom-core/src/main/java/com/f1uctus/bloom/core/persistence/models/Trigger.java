@@ -8,14 +8,11 @@ import lombok.*;
 
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 public class Trigger extends PropertiedEntity<ActivationPattern<?>> {
     @JsonIgnore
     @ManyToOne
     User user;
-
-    public Trigger(User user) {
-        this.user = user;
-    }
 }
