@@ -1,40 +1,29 @@
 package com.f1uctus.bloom.application.controllers.workflows.triggers;
 
-import com.dooapp.fxform.FXForm;
-import com.dooapp.fxform.builder.FXFormBuilder;
+import com.f1uctus.bloom.application.common.controls.CustomControl;
 import com.f1uctus.bloom.core.persistence.models.Trigger;
 import com.f1uctus.bloom.plugins.coreinterface.events.ActivationPattern;
 import com.f1uctus.bloom.plugins.coreinterface.events.EventPlugin;
-import com.google.common.collect.Iterators;
-import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
+import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
-import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
-import lombok.Getter;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 import static javafx.beans.binding.Bindings.createObjectBinding;
 import static javafx.collections.FXCollections.observableArrayList;
 
-public class TriggerPatternView extends HBox {
-    @Getter final Property<ActivationPattern<?>> pattern = new SimpleObjectProperty<>();
-    final Trigger trigger;
+public class TriggerPatternView extends HBox implements CustomControl {
+    @FXML ComboBox<ActivationPattern<?>> eventType;
+    @FXML Button editButton;
 
     public TriggerPatternView(List<EventPlugin<?>> eventPlugins, Trigger trigger) {
-        setAlignment(Pos.CENTER_LEFT);
-        setSpacing(5);
+        bindFxml();
 
-        this.trigger = trigger;
-
-        var eventType = new ComboBox<ActivationPattern<?>>();
         eventType.setItems(observableArrayList(eventPlugins.stream()
             .map(EventPlugin::patternTemplate)
             .map(t -> trigger.getProperties() != null
@@ -59,43 +48,16 @@ public class TriggerPatternView extends HBox {
                 };
             }
         });
-        this.pattern.bind(eventType.getSelectionModel().selectedItemProperty());
+        var pattern = new SimpleObjectProperty<ActivationPattern<?>>();
+        pattern.bind(eventType.getSelectionModel().selectedItemProperty());
         if (trigger.getProperties() != null) {
             eventType.getSelectionModel().select(trigger.getProperties());
         }
-
-        var button = new Button("Edit");
-        button.visibleProperty().bind(createObjectBinding(
-            () -> this.pattern.getValue() != null,
-            this.pattern
+        editButton.visibleProperty().bind(createObjectBinding(
+            () -> pattern.getValue() != null,
+            pattern
         ));
-        button.setOnAction(e -> inflate());
-
-        getChildren().addAll(new Label("Type"), eventType, button);
-    }
-
-    void inflate() {
-        var form = (FXForm<?>) new FXFormBuilder<>()
-            .buffered(true, true)
-            .source(pattern.getValue())
-            .build();
-        var stage = new Stage();
-        stage.setScene(new Scene(form));
-        stage.setOnCloseRequest(event -> {
-            if (!form.isValid()) {
-                new Alert(Alert.AlertType.ERROR, form.getConstraintViolations()
-                    .stream()
-                    .map(v -> Iterators.getLast(v.getPropertyPath().iterator())
-                        + " "
-                        + v.getMessage())
-                    .collect(Collectors.joining("\n"))
-                ).showAndWait();
-                return;
-            }
-            form.commit();
-            trigger.setProperties(pattern.getValue());
-        });
-        stage.show();
+        editButton.setOnAction(e -> showGenericEditorFor(pattern, trigger::setProperties));
     }
 
     public static class TriggerTypeConverter extends StringConverter<ActivationPattern<?>> {
