@@ -1,6 +1,9 @@
 package org.pf4j.spring;
 
 import jakarta.annotation.PostConstruct;
+import lombok.Getter;
+import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
 import org.pf4j.*;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory;
@@ -12,10 +15,11 @@ import java.util.List;
 
 /**
  * @author Decebal Suiu
+ * @author Ilya Nititin
  */
 public class SpringPluginManager extends DefaultPluginManager implements ApplicationContextAware {
-
-    private ApplicationContext applicationContext;
+    @Getter
+    ApplicationContext applicationContext;
 
     public SpringPluginManager(List<Path> pluginsRoots) {
         super(pluginsRoots);
@@ -46,12 +50,8 @@ public class SpringPluginManager extends DefaultPluginManager implements Applica
     }
 
     @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+    public void setApplicationContext(@NotNull ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
-    }
-
-    public ApplicationContext getApplicationContext() {
-        return applicationContext;
     }
 
     /**
@@ -66,5 +66,4 @@ public class SpringPluginManager extends DefaultPluginManager implements Applica
         var extensionsInjector = new ExtensionsInjector(this, beanFactory);
         extensionsInjector.injectExtensions();
     }
-
 }

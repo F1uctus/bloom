@@ -1,10 +1,9 @@
 package org.pf4j.spring;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.pf4j.Extension;
 import org.pf4j.ExtensionFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 
 /**
@@ -13,33 +12,15 @@ import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
  * Uses Spring's {@link AutowireCapableBeanFactory} to instantiate a given extension class.
  * <p><p>
  * Creates a new extension instance every time a request is done.
- * <pre>{@code
- *     @Extension
- *     public class Foo implements ExtensionPoint {
- *
- *         private final Bar bar;       // Constructor injection
- *
- *         @Autowired
- *         public Foo(final Bar bar) {
- *             bar = bar;
- *         }
- *
- *         @Autowired
- *         public void setBaz(final Baz baz) {
- *             baz = baz;
- *         }
- *     }
- * }</pre>
  *
  * @author Decebal Suiu
  * @author m-schroeer
+ * @author Ilya Nikitin
  */
 @AllArgsConstructor
+@Slf4j
 public class SpringExtensionFactory implements ExtensionFactory {
-
-    private static final Logger log = LoggerFactory.getLogger(SpringExtensionFactory.class);
-
-    protected final SpringPluginManager pluginManager;
+    final SpringPluginManager pluginManager;
 
     /**
      * Creates an instance of the given {@code extensionClass}. This method
@@ -52,7 +33,7 @@ public class SpringExtensionFactory implements ExtensionFactory {
     @SuppressWarnings("unchecked")
     @Override
     public <T> T create(final Class<T> extensionClass) {
-        final AutowireCapableBeanFactory beanFactory = pluginManager.getApplicationContext()
+        final var beanFactory = pluginManager.getApplicationContext()
             .getAutowireCapableBeanFactory();
 
         log.debug("Instantiate extension class '" + extensionClass.getName()

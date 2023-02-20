@@ -1,20 +1,18 @@
 package org.pf4j.spring;
 
 import lombok.AllArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory;
 
 /**
  * @author Decebal Suiu
+ * @author Ilya Nikitin
  */
 @AllArgsConstructor
+@Slf4j
 public class ExtensionsInjector {
-
-    private static final Logger log = LoggerFactory.getLogger(ExtensionsInjector.class);
-
-    protected final SpringPluginManager springPluginManager;
-    protected final AbstractAutowireCapableBeanFactory beanFactory;
+    final SpringPluginManager springPluginManager;
+    final AbstractAutowireCapableBeanFactory beanFactory;
 
     public void injectExtensions() {
         // add extensions from classpath (non plugin)
